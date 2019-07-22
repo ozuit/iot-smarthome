@@ -1,11 +1,12 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import authHOC from './utils/auth';
 
 // Layout Types
 import { DefaultLayout, BlankLayout } from "./layouts";
 
 // Route Views
-import BlogOverview from "./views/BlogOverview";
+import Dashboard from "./views/Dashboard";
 import UserProfileLite from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
@@ -19,17 +20,17 @@ export default [
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/blog-overview" />
+    component: () => <Redirect to="/dashboard" />
   },
   {
     path: "/login",
     layout: BlankLayout,
-    component: Login
+    component: authHOC(Login)
   },
   {
-    path: "/blog-overview",
+    path: "/dashboard",
     layout: DefaultLayout,
-    component: BlogOverview
+    component: Dashboard
   },
   {
     path: "/user-profile-lite",

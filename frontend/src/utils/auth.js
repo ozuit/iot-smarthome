@@ -92,3 +92,12 @@ export function getRole() {
   }
   return 'USER';
 }
+
+export function getUserID() {
+  let token = localStorage.getItem('token');
+  if (token) {
+    let token_decoded = jwtDecode(token);
+    return token_decoded.user_id;
+  }
+  return null;
+}

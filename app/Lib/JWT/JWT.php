@@ -28,6 +28,7 @@ class JWT
         $token = [
             'roles' => $user->getRoles(),
             'email' => $user->email,
+            'user_id' => $user->id,
             'timeout' => time() + (60 * 60 * 24 * 30),// 30 days
         ];
 

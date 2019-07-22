@@ -7,7 +7,7 @@ class User extends Base
     protected $table = 'user';
 
     protected $fillable = [
-        'name', 'email', 'password', 'active', 'roles', 'area_id',
+        'name', 'email', 'password', 'active', 'roles', 'address', 'note',
     ];
 
     protected $casts = [

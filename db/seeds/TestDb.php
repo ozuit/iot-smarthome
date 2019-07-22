@@ -9,12 +9,13 @@ class TestDb extends AbstractSeed
         $users = [
             [
                 'email' => 'admin@gmail.com',
-                'phone' => null,
+                'phone' => '0784090893',
                 'password' => password_hash(1234, PASSWORD_BCRYPT),
-                'name' => 'Admin',
+                'name' => 'Tống Duy Tân',
                 'active' => true,
                 'is_admin' => true,
                 'roles' => json_encode(['ADMIN']),
+                'address' => '100/84 Lê Quang Định, P14, Q. Bình Thạnh, HCM',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],

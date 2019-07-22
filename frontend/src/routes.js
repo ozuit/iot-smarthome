@@ -35,7 +35,7 @@ export default [
   {
     path: "/user-profile-lite",
     layout: DefaultLayout,
-    component: UserProfileLite
+    component: authHOC(UserProfileLite)
   },
   {
     path: "/add-new-post",

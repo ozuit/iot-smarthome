@@ -1,0 +1,52 @@
+# These are resources
+resources:
+  student:
+  course:
+  statistic:
+  account:
+  invoice_type:
+  invoice:
+    cancel_invoice:
+    statistic_invoice:
+  acl:
+
+# These roles
+roles:
+  GUEST:
+  AGENT:
+  ACCOUNTANT:
+  ADMIN:
+
+# These are rules
+rules:
+  # Statistic
+  - ['allow', ['AGENT', 'ADMIN'], ['statistic'], ['view_menu']]
+
+  # Student
+  - ['allow', ['GUEST', 'AGENT', 'ADMIN'], ['student'], ['read']]
+  - ['allow', ['AGENT', 'ADMIN'], ['student'], ['create', 'update', 'search', 'view_menu', 'quick_search']]
+  - ['allow', ['ADMIN'], ['student'], ['delete']]
+  
+  # Account
+  - ['allow', ['GUEST', 'AGENT', 'ADMIN', 'ACCOUNTANT'], ['account'], ['read']]
+  - ['allow', ['ADMIN'], ['account'], ['create', 'update', 'delete', 'view_menu', 'update_role']]
+
+  # Course
+  - ['allow', ['GUEST', 'AGENT', 'ADMIN'], ['course'], ['read', 'view_menu', 'filter']]
+  - ['allow', ['AGENT', 'ADMIN'], ['course'], ['create', 'update']]
+  - ['allow', ['ADMIN'], ['course'], ['delete']]
+  
+  # Invoice Type
+  - ['allow', ['GUEST', 'AGENT', 'ADMIN', 'ACCOUNTANT'], ['invoice_type'], ['read']]
+  - ['allow', ['AGENT', 'ADMIN'], ['invoice_type'], ['create', 'update', 'delete', 'view_menu']]
+
+  # Invoice
+  - ['allow', ['GUEST', 'AGENT'], ['invoice'], ['checkout']]
+  - ['allow', ['GUEST', 'AGENT', 'ADMIN', 'ACCOUNTANT'], ['invoice'], ['read', 'view_menu', 'create', 'update', 'print']]
+  - ['allow', ['AGENT', 'ADMIN', 'ACCOUNTANT'], ['invoice'], ['confirm', 'cancel', 'change_created_at']]
+  - ['allow', ['AGENT', 'ADMIN', 'ACCOUNTANT'], ['statistic_invoice'], ['export', 'readall']]
+  - ['allow', ['AGENT', 'ADMIN', 'ACCOUNTANT'], ['cancel_invoice'], ['read']]
+
+  # ACL
+  - ['allow', ['ADMIN', 'ADMIN'], ['acl'], ['read', 'view_menu']]
+  - ['allow', ['ADMIN'], ['acl'], ['readall']]

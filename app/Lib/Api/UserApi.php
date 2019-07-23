@@ -3,7 +3,6 @@
 namespace App\Lib\Api;
 
 use App\Model\User;
-use App\Service\UtilService;
 
 class UserApi extends BaseApi
 {

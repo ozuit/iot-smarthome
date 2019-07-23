@@ -16,11 +16,6 @@ class User extends Base
         'roles' => 'json',
     ];
 
-    public function contracts()
-    {
-        return $this->hasMany(Contract::class, 'creator_id', 'id');
-    }
-
     protected function setPasswordAttribute($value)
     {
         $this->attributes['password'] = password_hash($value, PASSWORD_BCRYPT);

@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Model;
+
+class Sensor extends Base
+{
+    protected $table = 'sensor';
+
+    protected $fillable = [
+        'name', 'room_id', 'active',
+    ];
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'room_id', 'id');
+    }
+}

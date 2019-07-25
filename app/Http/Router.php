@@ -27,6 +27,7 @@ class Router extends RouteLoader
             $group->get('/user/{id}', $r->to('User', 'api'), 'api_v1_user_find');
             $group->post('/user', $r->to('User', 'api'), 'api_v1_user_post');
             $group->put('/user/{id}', $r->to('User', 'api'), 'api_v1_user_put');
+            $group->delete('/user/{id}', $r->to('User', 'api'), 'api_v1_user_delete');
             $group->post('/user/logout', $r->to('User', 'logout'), 'api_v1_user_logout');
 
             $group->get('/room', $r->to('Room', 'api'), 'api_v1_room_get');

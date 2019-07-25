@@ -6,12 +6,14 @@ import authHOC from './utils/auth';
 import { DefaultLayout, BlankLayout } from "./layouts";
 
 // Route Views
-import Dashboard from "./views/Dashboard";
-import UserProfile from "./views/UserProfile";
-import Devices from "./views/Devices";
-import Rooms from "./views/Rooms";
-import Users from "./views/Users";
 import Login from "./views/Login";
+import UserProfile from "./views/UserProfile";
+import Dashboard from "./views/Dashboard";
+import Rooms from "./views/Rooms";
+import Devices from "./views/Devices";
+import Users from "./views/Users";
+import NewUser from "./components/users/NewUser";
+import EditUser from "./components/users/EditUser";
 
 export default [
   {
@@ -48,6 +50,16 @@ export default [
   {
     path: "/users",
     layout: DefaultLayout,
-    component: Users
+    component: authHOC(Users)
+  },
+  {
+    path: "/new-user",
+    layout: DefaultLayout,
+    component: authHOC(NewUser)
+  },
+  {
+    path: "/edit-user/:user_id",
+    layout: DefaultLayout,
+    component: authHOC(EditUser)
   },
 ];

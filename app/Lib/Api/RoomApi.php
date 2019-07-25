@@ -2,6 +2,8 @@
 
 namespace App\Lib\Api;
 
+use App\Model\Room;
+
 class RoomApi extends BaseApi
 {
     protected $route = 'api_v1_room_find';

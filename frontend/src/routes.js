@@ -10,6 +10,8 @@ import Login from "./views/Login";
 import UserProfile from "./views/UserProfile";
 import Dashboard from "./views/Dashboard";
 import Rooms from "./views/Rooms";
+import NewRoom from "./components/rooms/NewRoom";
+import EditRoom from "./components/rooms/EditRoom";
 import Devices from "./views/Devices";
 import NewDevice from "./components/devices/NewDevice";
 import EditDevice from "./components/devices/EditDevice";
@@ -32,7 +34,7 @@ export default [
   {
     path: "/dashboard",
     layout: DefaultLayout,
-    component: Dashboard
+    component: authHOC(Dashboard)
   },
   {
     path: "/user-profile",
@@ -43,7 +45,17 @@ export default [
   {
     path: "/rooms",
     layout: DefaultLayout,
-    component: Rooms
+    component: authHOC(Rooms)
+  },
+  {
+    path: "/new-room",
+    layout: DefaultLayout,
+    component: authHOC(NewRoom)
+  },
+  {
+    path: "/edit-room/:room_id",
+    layout: DefaultLayout,
+    component: authHOC(EditRoom)
   },
   // Devices
   {

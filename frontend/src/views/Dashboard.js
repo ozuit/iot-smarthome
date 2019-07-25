@@ -4,7 +4,7 @@ import { Container, Row, Col, Button } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
 import SmallStats from "../components/common/SmallStats";
-import TemperatureOverview from "../components/room/TemperatureOverview";
+import TemperatureOverview from "../components/rooms/TemperatureOverview";
 
 const Dashboard = ({ smallStats }) => (
   <Container fluid className="main-content-container px-4">

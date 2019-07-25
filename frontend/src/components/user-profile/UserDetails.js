@@ -6,7 +6,6 @@ import {
   Button,
   ListGroup,
   ListGroupItem,
-  Progress
 } from "shards-react";
 import { getUserName } from "../../utils/auth";
 

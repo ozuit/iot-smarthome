@@ -7,12 +7,9 @@ import { DefaultLayout, BlankLayout } from "./layouts";
 
 // Route Views
 import Dashboard from "./views/Dashboard";
-import UserProfileLite from "./views/UserProfileLite";
-import AddNewPost from "./views/AddNewPost";
-import Errors from "./views/Errors";
+import UserProfile from "./views/UserProfile";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
-import BlogPosts from "./views/BlogPosts";
 import Login from "./views/Login";
 
 export default [
@@ -33,19 +30,9 @@ export default [
     component: Dashboard
   },
   {
-    path: "/user-profile-lite",
+    path: "/user-profile",
     layout: DefaultLayout,
-    component: authHOC(UserProfileLite)
-  },
-  {
-    path: "/add-new-post",
-    layout: DefaultLayout,
-    component: AddNewPost
-  },
-  {
-    path: "/errors",
-    layout: DefaultLayout,
-    component: Errors
+    component: authHOC(UserProfile)
   },
   {
     path: "/components-overview",
@@ -57,9 +44,4 @@ export default [
     layout: DefaultLayout,
     component: Tables
   },
-  {
-    path: "/blog-posts",
-    layout: DefaultLayout,
-    component: BlogPosts
-  }
 ];

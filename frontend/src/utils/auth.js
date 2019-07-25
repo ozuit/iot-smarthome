@@ -101,3 +101,12 @@ export function getUserID() {
   }
   return null;
 }
+
+export function getUserName() {
+  let token = localStorage.getItem('token');
+  if (token) {
+    let token_decoded = jwtDecode(token);
+    return token_decoded.name;
+  }
+  return null;
+}

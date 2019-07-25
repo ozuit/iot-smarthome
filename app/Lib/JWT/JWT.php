@@ -29,6 +29,7 @@ class JWT
             'roles' => $user->getRoles(),
             'email' => $user->email,
             'user_id' => $user->id,
+            'name' => $user->name,
             'timeout' => time() + (60 * 60 * 24 * 30),// 30 days
         ];
 

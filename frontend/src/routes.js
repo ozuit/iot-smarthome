@@ -8,8 +8,9 @@ import { DefaultLayout, BlankLayout } from "./layouts";
 // Route Views
 import Dashboard from "./views/Dashboard";
 import UserProfile from "./views/UserProfile";
-import ComponentsOverview from "./views/ComponentsOverview";
-import Tables from "./views/Tables";
+import Devices from "./views/Devices";
+import Rooms from "./views/Rooms";
+import Users from "./views/Users";
 import Login from "./views/Login";
 
 export default [
@@ -35,13 +36,18 @@ export default [
     component: authHOC(UserProfile)
   },
   {
-    path: "/components-overview",
+    path: "/devices",
     layout: DefaultLayout,
-    component: ComponentsOverview
+    component: Devices
   },
   {
-    path: "/tables",
+    path: "/rooms",
     layout: DefaultLayout,
-    component: Tables
+    component: Rooms
+  },
+  {
+    path: "/users",
+    layout: DefaultLayout,
+    component: Users
   },
 ];

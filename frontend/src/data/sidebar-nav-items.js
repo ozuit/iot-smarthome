@@ -7,19 +7,19 @@ export default function() {
       htmlAfter: ""
     },
     {
-      title: "Forms & Components",
-      htmlBefore: '<i class="material-icons">view_module</i>',
-      to: "/components-overview",
+      title: "Rooms",
+      htmlBefore: '<i class="material-icons">meeting_room</i>',
+      to: "/rooms",
     },
     {
-      title: "Tables",
-      htmlBefore: '<i class="material-icons">table_chart</i>',
-      to: "/tables",
+      title: "Devices",
+      htmlBefore: '<i class="material-icons">devices_other</i>',
+      to: "/devices",
     },
     {
-      title: "User Profile",
-      htmlBefore: '<i class="material-icons">person</i>',
-      to: "/user-profile",
+      title: "Users",
+      htmlBefore: '<i class="material-icons">people</i>',
+      to: "/users",
     },
   ];
 }

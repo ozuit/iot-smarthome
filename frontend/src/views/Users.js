@@ -88,7 +88,7 @@ class Users extends React.Component
                   <tbody>
                     {
                       usersData.map((user, index) => (
-                        <tr>
+                        <tr key={index}>
                           <td>{ index + 1 }</td>
                           <td>{ user.name }</td>
                           <td>{ user.email }</td>
@@ -96,10 +96,10 @@ class Users extends React.Component
                           <td>{ user.address }</td>
                           <td>
                             <Link to={"edit-user/" + user.id}>
-                              <i class="material-icons mr-2" style={styles.edit}>edit</i>
+                              <i className="material-icons mr-2" style={styles.edit}>edit</i>
                             </Link>
                             {
-                              user.id === 1 ? null : <i class="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(user.id)}>delete</i>
+                              user.id === 1 ? null : <i className="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(user.id)}>delete</i>
                             }
                           </td>
                         </tr>

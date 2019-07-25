@@ -11,6 +11,8 @@ import UserProfile from "./views/UserProfile";
 import Dashboard from "./views/Dashboard";
 import Rooms from "./views/Rooms";
 import Devices from "./views/Devices";
+import NewDevice from "./components/devices/NewDevice";
+import EditDevice from "./components/devices/EditDevice";
 import Users from "./views/Users";
 import NewUser from "./components/users/NewUser";
 import EditUser from "./components/users/EditUser";
@@ -37,16 +39,29 @@ export default [
     layout: DefaultLayout,
     component: authHOC(UserProfile)
   },
-  {
-    path: "/devices",
-    layout: DefaultLayout,
-    component: Devices
-  },
+  // Rooms
   {
     path: "/rooms",
     layout: DefaultLayout,
     component: Rooms
   },
+  // Devices
+  {
+    path: "/devices",
+    layout: DefaultLayout,
+    component: authHOC(Devices)
+  },
+  {
+    path: "/new-device",
+    layout: DefaultLayout,
+    component: authHOC(NewDevice)
+  },
+  {
+    path: "/edit-device/:device_id",
+    layout: DefaultLayout,
+    component: authHOC(EditDevice)
+  },
+  // Users
   {
     path: "/users",
     layout: DefaultLayout,

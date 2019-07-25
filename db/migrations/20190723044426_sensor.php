@@ -14,6 +14,9 @@ class Sensor extends AbstractMigration
             ->addColumn('active', 'boolean', ['null' => false, 'default' => true])
             ->addColumn('room_id', 'integer', ['null' => true, 'default' => null])
             ->addForeignKey('room_id', 'room', 'id', ['delete' => 'SET NULL'])
+            ->addColumn('created_at', 'timestamp', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('updated_at', 'timestamp', ['null' => true, 'default' => null])
+            ->addIndex('created_at')
             ->create();
     }
 }

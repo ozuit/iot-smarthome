@@ -35,10 +35,10 @@ class Router extends RouteLoader
             $group->post('/room', $r->to('Room', 'api'), 'api_v1_room_post');
             $group->put('/room/{id}', $r->to('Room', 'api'), 'api_v1_room_put');
             
-            $group->get('/sensor', $r->to('Sensor', 'api'), 'api_v1_sensor_get');
-            $group->get('/sensor/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_find');
-            $group->post('/sensor', $r->to('Sensor', 'api'), 'api_v1_sensor_post');
-            $group->put('/sensor/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_put');
+            $group->get('/device', $r->to('Sensor', 'api'), 'api_v1_sensor_get');
+            $group->get('/device/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_find');
+            $group->post('/device', $r->to('Sensor', 'api'), 'api_v1_sensor_post');
+            $group->put('/device/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_put');
             
             $group->get('/data', $r->to('Data', 'api'), 'api_v1_data_get');
             $group->get('/data/{id}', $r->to('Data', 'api'), 'api_v1_data_find');

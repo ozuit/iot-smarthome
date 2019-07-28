@@ -17,6 +17,7 @@ class SensorApi extends BaseApi
         return [
             'id' => $model->id,
             'name' => $model->name,
+            'topic' => $model->topic,
             'room_id' => $model->room_id,
             'active' => $model->active,
         ];

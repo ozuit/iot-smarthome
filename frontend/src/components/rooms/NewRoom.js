@@ -58,6 +58,16 @@ class NewRoom extends React.Component {
                         onChange={(e) => this.setState({ room: { ...room, name: e.target.value } })}
                       />
                     </FormGroup>
+
+                    <FormGroup>
+                      <label htmlFor="feTopic">Topic</label>
+                      <FormInput
+                        id="feTopic"
+                        placeholder="Enter a topic for room"
+                        value={room.topic || ''}
+                        onChange={(e) => this.setState({ room: { ...room, topic: e.target.value } })}
+                      />
+                    </FormGroup>
                    
                     <Button theme="info" outline className="mr-2" tag={Link} to="/rooms">Go Back</Button>
                     <Button theme="accent" onClick={() => this.handleCreate()}>Create Room</Button>

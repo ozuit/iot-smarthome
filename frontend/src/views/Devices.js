@@ -22,7 +22,11 @@ class Devices extends React.Component
   }
 
   fetch() {
-    api.get('/device').then((res) => {
+    api.get('/device', {
+      params: {
+        _relations: 'room'
+      }
+    }).then((res) => {
       this.setState({
         devicesData: res.data
       })
@@ -72,6 +76,9 @@ class Devices extends React.Component
                         Name
                       </th>
                       <th scope="col" className="border-0">
+                        Topic
+                      </th>
+                      <th scope="col" className="border-0">
                         Active
                       </th>
                       <th scope="col" className="border-0">
@@ -88,8 +95,9 @@ class Devices extends React.Component
                         <tr key={index}>
                           <td>{ index + 1 }</td>
                           <td>{ device.name }</td>
+                          <td>{ device.topic }</td>
                           <td>{ device.active === 1 ? 'True' : 'False' }</td>
-                          <td>{ device.room_id }</td>
+                          <td>{ device.room_id ? device.room.data.name : '' }</td>
                           <td>
                             <Link to={"edit-device/" + device.id}>
                               <i className="material-icons mr-2" style={styles.edit}>edit</i>

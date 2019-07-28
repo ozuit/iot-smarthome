@@ -69,6 +69,17 @@ class NewDevice extends React.Component {
                         onChange={(e) => this.setState({ device: { ...device, name: e.target.value } })}
                       />
                     </FormGroup>
+
+                    <FormGroup>
+                      <label htmlFor="feTopic">Topic</label>
+                      <FormInput
+                        id="feTopic"
+                        placeholder="Enter a topic for device"
+                        value={device.topic || ''}
+                        onChange={(e) => this.setState({ device: { ...device, topic: e.target.value } })}
+                      />
+                    </FormGroup>
+
                     <FormGroup>
                       <label htmlFor="feRoom">Room</label>
                       <FormSelect id="feRoom" onChange={(e) => this.setState({ device: { ...device, room_id: e.target.value } })}>
@@ -79,6 +90,7 @@ class NewDevice extends React.Component {
                         }
                       </FormSelect>
                     </FormGroup>
+
                     <FormGroup>
                       <FormRadio
                         inline

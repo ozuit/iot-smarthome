@@ -7,7 +7,7 @@ class Sensor extends Base
     protected $table = 'sensor';
 
     protected $fillable = [
-        'name', 'room_id', 'active',
+        'name', 'room_id', 'active', 'topic',
     ];
 
     public function room()

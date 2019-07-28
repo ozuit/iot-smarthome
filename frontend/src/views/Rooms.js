@@ -72,6 +72,9 @@ class Rooms extends React.Component
                         Name
                       </th>
                       <th scope="col" className="border-0">
+                        Topic
+                      </th>
+                      <th scope="col" className="border-0">
                         Devices Number
                       </th>
                       <th scope="col" className="border-0">
@@ -85,7 +88,8 @@ class Rooms extends React.Component
                         <tr key={index}>
                           <td>{ index + 1 }</td>
                           <td>{ room.name }</td>
-                          <td></td>
+                          <td>{ room.topic }</td>
+                          <td>{ room.number }</td>
                           <td>
                             <Link to={"edit-room/" + room.id}>
                               <i className="material-icons mr-2" style={styles.edit}>edit</i>

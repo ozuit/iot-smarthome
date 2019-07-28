@@ -26,7 +26,7 @@ const refreshSensorMapTable = function(cb) {
         result.forEach(function(row, idx) {
             sensorMapTable[row.topic] = row.id
         })
-
+console.log(sensorMapTable)
         cb();
     });
 }

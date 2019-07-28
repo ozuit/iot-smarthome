@@ -6,7 +6,9 @@ const client = mqtt.connect('mqtt://94.237.73.225', {
     password: 'ozu@2019',
 })
 
-client.subscribe('/smart-home')
+client.subscribe('smarthome/#')
 client.on('message', function(topic, payload) {
-    console.log(topic, payload.toString());
+    const levels = topic.split('/')
+
+    console.log(topic, levels, payload.toString())
 })

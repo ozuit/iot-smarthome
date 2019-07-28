@@ -11,10 +11,11 @@ class Room extends AbstractMigration
             'collation' => 'utf8mb4_unicode_ci',
         ])
             ->addColumn('name', 'string', ['null' => true, 'default' => null])
-            ->addColumn('topic', 'string', ['unique' => true])
+            ->addColumn('topic', 'string', ['null' => true, 'default' => null])
             ->addColumn('created_at', 'timestamp', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('updated_at', 'timestamp', ['null' => true, 'default' => null])
             ->addIndex('created_at')
+            ->addIndex('topic', ['unique' => true])
             ->create();
     }
 }

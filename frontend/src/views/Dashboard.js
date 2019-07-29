@@ -4,7 +4,8 @@ import { Container, Row, Col, Button } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
 import SmallStats from "../components/common/SmallStats";
-import TemperatureOverview from "../components/rooms/TemperatureOverview";
+import TemperatureChart from "../components/dashboard/Temperature";
+import HumidityChart from "../components/dashboard/Humidity";
 
 const Dashboard = ({ smallStats }) => (
   <Container fluid className="main-content-container px-4">
@@ -29,8 +30,11 @@ const Dashboard = ({ smallStats }) => (
 
     <Row>
       {/* Users Overview */}
-      <Col lg="12" md="12" sm="12" className="mb-4">
-        <TemperatureOverview />
+      <Col lg="6" md="12" sm="12" className="mb-4">
+        <TemperatureChart />
+      </Col>
+      <Col lg="6" md="12" sm="12" className="mb-4">
+        <HumidityChart />
       </Col>
     </Row>
     

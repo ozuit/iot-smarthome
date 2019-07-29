@@ -3,6 +3,8 @@ import { Card, CardHeader, CardBody } from "shards-react";
 import api from "../../api";
 import Chart from "../../utils/chart";
 
+let timeout = null
+
 class Temperature extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +16,10 @@ class Temperature extends React.Component {
     this.fetchData(this.renderChart([]))
   }
 
+  componentWillUnmount() {
+    clearTimeout(timeout)
+  }
+
   fetchData(chart) {
     api.get('/data/temp').then((res) => {
       if (res.data.length > 0) { 
@@ -23,7 +29,7 @@ class Temperature extends React.Component {
     })
 
     const that = this
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       that.fetchData(chart)
     }, 3000);
   }

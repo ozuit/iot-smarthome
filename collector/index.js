@@ -1,20 +1,19 @@
 const mqtt = require('mqtt')
 const util = require('./util')
-const secret_key = process.env.MQTT_SECRET_KEY || ''
 const mysql = require('mysql')
+const dotenv = require('dotenv');
+dotenv.config();
+const secret_key = process.env.MQTT_SECRET_KEY || ''
 let sensorMapTable = {}
 
 const mysql_con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "password",
-    database: "iot"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
-const client = mqtt.connect('mqtt://94.237.73.225', {
-    username: 'ozuit',
-    password: 'ozu@2019',
-})
+const client = mqtt.connect('mqtt://94.237.73.225')
 
 const refreshSensorMapTable = function(cb) {
     sensorMapTable = {}
@@ -27,7 +26,7 @@ const refreshSensorMapTable = function(cb) {
             sensorMapTable[row.topic] = row.id
         })
 
-        cb();
+        if (cb) cb();
     });
 }
 

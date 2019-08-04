@@ -8,7 +8,7 @@
 #include <WiFiUdp.h>
 #include <NTPClient.h>
 
-#define DHTPIN 4
+#define DHTPIN 4 // D2 on esp8266
 
 const char* ssid     = "MINH THU 5";
 const char* password = "55555555";
@@ -84,8 +84,6 @@ void loop()
  
   Serial.print("Humidity: ");
   Serial.println(measurement.humidity);
-
-  Serial.println(signature("aaaaa"));
 
   static char temperatureTemp[7];
   dtostrf(measurement.temperature, 6, 2, temperatureTemp);

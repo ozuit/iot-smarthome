@@ -7,7 +7,7 @@ const client = mqtt.connect('mqtt://94.237.73.225', {
     password: 'ozu@2019',
 })
 
-client.on('connect', function () {
+function fakeSensorData() {
     setInterval(function() {
         // motion
         const payload1 = util.signature(Math.random() < 0.5 ? 0 : 1, secret_key)
@@ -31,4 +31,21 @@ client.on('connect', function () {
         console.log(payload4)
         client.publish('smarthome/living-room/sensor/light/sensor1', payload4)
     }, 1000);
+}
+
+function fakeDeviceData() {
+    let state = '1';
+
+    setInterval(function() {
+        const living_room_light_1 = util.signature(state, secret_key)
+        console.log(living_room_light_1)
+        client.publish('smarthome/living-room/light/device1', living_room_light_1)
+        state = state == '0' ? '1' : '0';
+    }, 3000);
+}
+
+client.on('connect', function () {
+    // fakeSensorData()
+
+    fakeDeviceData()
 })

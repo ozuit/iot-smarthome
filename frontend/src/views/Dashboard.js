@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col, Button } from "shards-react";
 import api from "../api";
+import mqtt from "../utils/mqtt";
 
 import PageTitle from "../components/common/PageTitle";
 import SmallStats from "../components/common/SmallStats";
@@ -47,6 +48,13 @@ class Dashboard extends React.Component
     })
   }
 
+  turnOffAll() {
+    api.put('/device/turn-off-all', {
+      topic: 'smarthome/devices',
+      payload: mqtt.signature('turn-off-all')
+    })
+  }
+
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -87,18 +95,8 @@ class Dashboard extends React.Component
             </Button>
           </Col>
           <Col lg="6" md="12" sm="12" className="mb-4">
-            <Button outline block theme="dark">
-              Chế Độ Thư Giãn
-            </Button>
-          </Col>
-          <Col lg="6" md="12" sm="12" className="mb-4">
-            <Button outline block theme="dark">
-              Chế Độ Đi Ngủ
-            </Button>
-          </Col>
-          <Col lg="6" md="12" sm="12" className="mb-4">
-            <Button outline block theme="dark">
-              Chế Độ Đi LàmLàm
+            <Button outline block theme="dark" onClick={this.turnOffAll.bind(this)}>
+              Chế Độ Đi Làm
             </Button>
           </Col>
         </Row>

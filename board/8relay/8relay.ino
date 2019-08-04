@@ -93,7 +93,7 @@ void loop() {
   delay(2000);
 }
 
-boolean verify(byte* payload)
+boolean verify(byte* payload, unsigned int length)
 {
   unsigned long now_ts = timeClient.getEpochTime();
   String str_payload = String((char*)payload);
@@ -105,7 +105,7 @@ boolean verify(byte* payload)
       return false;
   }
 
-  String hash_data = str_payload.substring(33, 45) + '|' + secret_key;
+  String hash_data = str_payload.substring(33, length) + '|' + secret_key;
   char *cstr = new char [hash_data.length()+1];
   strcpy (cstr, hash_data.c_str());
   unsigned char* re_hash = MD5::make_hash(cstr);
@@ -121,9 +121,9 @@ boolean verify(byte* payload)
 void callback(char* topic, byte* payload, unsigned int length) {
   String topicStr = topic;
   
-  if (verify(payload)) {
+  if (verify(payload, length)) {
     String str_payload = String((char*)payload);
-    String state = str_payload.substring(44,45);
+    String state = str_payload.substring(44,length);
     Serial.println(topicStr + " " + state);
     
     if (topicStr == "smarthome/living-room/light/device1") // Relay number 8
@@ -186,6 +186,18 @@ void callback(char* topic, byte* payload, unsigned int length) {
           digitalWrite(PIN_D6, HIGH);
        }
        else if (state == "0") {
+          digitalWrite(PIN_D6, LOW);
+       }
+    }
+    else if (topicStr == "smarthome/devices")
+    {
+       if(state == "turn-off-all") {
+          digitalWrite(PIN_D0, LOW);
+          digitalWrite(PIN_D1, LOW);
+          digitalWrite(PIN_D2, LOW);
+          digitalWrite(PIN_D3, LOW);
+          digitalWrite(PIN_D4, LOW);
+          digitalWrite(PIN_D5, LOW);
           digitalWrite(PIN_D6, LOW);
        }
     }

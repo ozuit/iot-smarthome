@@ -26,7 +26,8 @@
         "khanhicetea/bernard": "^0.12.5",
         "vlucas/phpdotenv": "^3.0",
         "jmhobbs/swiftmailer-transport-aws-ses": "^1.0",
-        "sentry/sentry": "^1.0"
+        "sentry/sentry": "^1.0",
+        "bluerhinos/phpmqtt": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.0"

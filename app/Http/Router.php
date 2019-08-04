@@ -38,7 +38,7 @@ class Router extends RouteLoader
             $group->get('/device', $r->to('Sensor', 'api'), 'api_v1_sensor_get');
             $group->get('/device/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_find');
             $group->post('/device', $r->to('Sensor', 'api'), 'api_v1_sensor_post');
-            $group->put('/device/update', $r->to('Sensor', 'update'), 'api_v1_device_update');
+            $group->put('/device/update/{id}', $r->to('Sensor', 'update'), 'api_v1_device_update');
             $group->put('/device/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_put');
             
             $group->get('/data', $r->to('Data', 'api'), 'api_v1_data_get');

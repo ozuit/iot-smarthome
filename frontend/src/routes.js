@@ -12,6 +12,7 @@ import Dashboard from "./views/Dashboard";
 import Rooms from "./views/Rooms";
 import NewRoom from "./components/rooms/NewRoom";
 import EditRoom from "./components/rooms/EditRoom";
+import ShowDevice from "./components/devices/ShowDevice";
 import Devices from "./views/Devices";
 import NewDevice from "./components/devices/NewDevice";
 import EditDevice from "./components/devices/EditDevice";
@@ -72,6 +73,11 @@ export default [
     path: "/edit-device/:device_id",
     layout: DefaultLayout,
     component: authHOC(EditDevice)
+  },
+  {
+    path: "/show-device/:room_id",
+    layout: DefaultLayout,
+    component: authHOC(ShowDevice)
   },
   // Users
   {

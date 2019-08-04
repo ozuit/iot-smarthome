@@ -91,10 +91,13 @@ class Rooms extends React.Component
                           <td>{ room.topic }</td>
                           <td>{ room.number }</td>
                           <td>
-                            <Link to={"edit-room/" + room.id}>
-                              <i className="material-icons mr-2" style={styles.edit}>edit</i>
+                            <Link to={"show-device/" + room.id}>
+                              <i className="material-icons mr-2" style={styles.button}>devices_other</i>
                             </Link>
-                            <i className="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(room.id)}>delete</i>
+                            <Link to={"edit-room/" + room.id}>
+                              <i className="material-icons mr-2" style={styles.button}>edit</i>
+                            </Link>
+                            <i className="material-icons mr-2" style={styles.button} onClick={() => this.handleDelete(room.id)}>delete</i>
                           </td>
                         </tr>
                       ))
@@ -125,16 +128,11 @@ class Rooms extends React.Component
 }
 
 const styles = {
-  edit: {
+  button: {
     cursor: 'pointer',
     fontSize: 14,
     color: '#5a6169',
   },
-  delete: {
-    cursor: 'pointer',
-    color: '#5a6169',
-    fontSize: 14,
-  }
 }
 
 export default Rooms;

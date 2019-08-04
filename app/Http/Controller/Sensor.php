@@ -27,7 +27,7 @@ class Sensor extends Api
         ];
     }
 
-    protected function update(): Response
+    protected function update($id): Response
     {
         $server = env('MQTT_SERVER');
         $port = env('MQTT_PORT');
@@ -36,19 +36,31 @@ class Sensor extends Api
         $mqtt = new phpMQTT($server, $port, $client_id);
         $topic = $this->getJsonData('topic', 'trash');
         $payload = $this->getJsonData('payload', '');
+        $status = $this->getJsonData('status', '');
 
-        if ($mqtt->connect()) {
-            $mqtt->publish($topic, $payload);
-            $mqtt->close();
-            
-            return $this->json([
-                'status' => true,
-            ]);
-        } else {
-            return $this->json([
-                'status' => false,
-                'message' => 'Time out!'
-            ]);
+        if ($status != '') {
+            if ($mqtt->connect()) {
+                $mqtt->publish($topic, $payload);
+                $mqtt->close();
+
+                $device = $this->getService()->find($id);
+                $device->active = $status;
+                $device->save();
+                
+                return $this->json([
+                    'status' => true,
+                ]);
+            } else {
+                return $this->json([
+                    'status' => false,
+                    'message' => 'Time out!'
+                ]);
+            }
         }
+
+        return $this->json([
+            'status' => false,
+            'message' => 'New status is missing!'
+        ]);
     }
 }

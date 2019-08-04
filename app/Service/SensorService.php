@@ -13,4 +13,20 @@ class SensorService extends ApiService
         return $this->{SensorApi::class};
     }
 
+    protected function getFilterableFields() : array
+    {
+        return [
+            'room_id', 'is_sensor',
+        ];
+    }
+
+    protected function mapFilters() : array
+    {
+        return [
+            'name' => function ($field, $value) {
+                return [$field, 'like', "%$value%"];
+            },
+        ];
+    }
+
 }

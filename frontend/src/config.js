@@ -1,0 +1,1 @@
+export const API_URL = 'http://api.iot.test/api/v1'

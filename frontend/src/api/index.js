@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { storeToken, removeToken } from '../utils/auth';
+import { API_URL } from '../config';
 
-const BASE_URL = 'http://api.iot.test/api/v1';
+const BASE_URL = API_URL;
 
 let normalAxios = axios.create({
   baseURL: BASE_URL,

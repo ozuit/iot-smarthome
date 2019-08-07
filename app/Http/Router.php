@@ -18,7 +18,6 @@ class Router extends RouteLoader
         $r = $this;
 
         $routing->get('/', $this->to('Home', 'index'), 'home');
-        $routing->get('/text2speech', $this->to('Home', 'text2speech'), 'text2speech');
         $routing->post('/api/v1/user/login', $r->to('User', 'login'), 'api_v1_user_login');
         $routing->put('/api/v1/user/resetpass', $r->to('User', 'resetpass'), 'api_v1_user_resetpass');
         $routing->put('/api/internal/device/update', $r->to('Sensor', 'ifttt'), 'api_v1_ifttt_put');

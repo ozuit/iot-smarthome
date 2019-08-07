@@ -9,7 +9,7 @@ use Bluerhinos\phpMQTT;
 class Sensor extends Api
 {
     protected $actions = [
-        'update', 'turnOffAll',
+        'update', 'turnOffAll', 'ifttt',
     ];
 
     protected function getService() : SensorService
@@ -25,6 +25,23 @@ class Sensor extends Api
             'put' => ['update', 'sensor'],
             'delete' => ['delete', 'sensor'],
         ];
+    }
+
+    protected function ifttt(): Response
+    {
+        $status = $this->getJsonData('status');
+        $topic = $this->getJsonData('topic');
+        if (isset($status)) {
+            $device = $this->getService()->where('topic', $topic)->first();
+            $device->active = $status;
+            $device->save();
+            return $this->json([
+                'status' => true,
+            ]);
+        }
+        return $this->json([
+            'status' => false,
+        ]);
     }
 
     protected function update($id): Response

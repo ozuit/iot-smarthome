@@ -10,11 +10,11 @@ class Data extends AbstractMigration
         $this->table('data', [
             'collation' => 'utf8mb4_unicode_ci',
         ])
-            ->addColumn('sensor_id', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('node_id', 'integer', ['null' => true, 'default' => null])
             ->addColumn('topic', 'string', ['limit' => 255, 'null' => true, 'default' => null])
             ->addColumn('value', 'float', ['null' => true, 'default' => null])
             ->addColumn('created_at', 'timestamp', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
-            ->addForeignKey('sensor_id', 'sensor', 'id', ['delete' => 'SET NULL'])
+            ->addForeignKey('node_id', 'node', 'id', ['delete' => 'SET NULL'])
             ->create();
     }
 }

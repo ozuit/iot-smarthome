@@ -12,7 +12,7 @@ class DataApi extends BaseApi
     {
         return [
             'id' => $model->id,
-            'sensor_id' => $model->sensor_id,
+            'node_id' => $model->node_id,
             'room_id' => $model->room_id,
             'value' => $model->value,
             'type' => $model->type,

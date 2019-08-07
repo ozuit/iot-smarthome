@@ -2,9 +2,9 @@
 
 namespace App\Model;
 
-class Sensor extends Base
+class Node extends Base
 {
-    protected $table = 'sensor';
+    protected $table = 'node';
 
     const HUM = 1;
     const TEMP = 2;

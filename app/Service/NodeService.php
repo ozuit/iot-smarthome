@@ -2,15 +2,15 @@
 
 namespace App\Service;
 
-use App\Lib\Api\SensorApi;
+use App\Lib\Api\NodeApi;
 
-class SensorService extends ApiService
+class NodeService extends ApiService
 {
-    protected $model_name = 'App\Model\Sensor';
+    protected $model_name = 'App\Model\Node';
 
     public function getApiLib()
     {
-        return $this->{SensorApi::class};
+        return $this->{NodeApi::class};
     }
 
     protected function getFilterableFields() : array

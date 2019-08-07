@@ -15,8 +15,8 @@ class Room extends Base
         'name', 'topic',
     ];
 
-    public function sensors()
+    public function nodes()
     {
-        return $this->hasMany(Sensor::class, 'room_id', 'id');
+        return $this->hasMany(Node::class, 'room_id', 'id');
     }
 }

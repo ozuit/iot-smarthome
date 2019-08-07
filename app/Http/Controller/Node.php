@@ -2,28 +2,28 @@
 
 namespace App\Http\Controller;
 
-use App\Service\SensorService;
+use App\Service\NodeService;
 use Symfony\Component\HttpFoundation\Response;
 use Bluerhinos\phpMQTT;
 
-class Sensor extends Api
+class Node extends Api
 {
     protected $actions = [
         'update', 'turnOffAll', 'ifttt',
     ];
 
-    protected function getService() : SensorService
+    protected function getService() : NodeService
     {
-        return $this->get(SensorService::class);
+        return $this->get(NodeService::class);
     }
 
     protected function getAclData(): array
     {
         return [
-            'get' => ['read', 'sensor'],
-            'post' => ['create', 'sensor'],
-            'put' => ['update', 'sensor'],
-            'delete' => ['delete', 'sensor'],
+            'get' => ['read', 'node'],
+            'post' => ['create', 'node'],
+            'put' => ['update', 'node'],
+            'delete' => ['delete', 'node'],
         ];
     }
 

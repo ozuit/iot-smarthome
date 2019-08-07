@@ -22,7 +22,7 @@ class Devices extends React.Component
   }
 
   fetch() {
-    api.get('/device', {
+    api.get('/node', {
       params: {
         _relations: 'room'
       }
@@ -119,7 +119,7 @@ class Devices extends React.Component
           <ModalBody>
             <h6>Are you sure you want to delete this device ?</h6>
             <Button outline theme="warning" className="mr-2" onClick={() => {
-              api.delete('/device/' + deleteDeviceId).then((res) => {
+              api.delete('/node/' + deleteDeviceId).then((res) => {
                 this.setState({ openModal: false })
                 this.fetch()
               })

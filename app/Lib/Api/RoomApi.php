@@ -14,7 +14,7 @@ class RoomApi extends BaseApi
             'id' => $model->id,
             'name' => $model->name,
             'topic' => $model->topic,
-            'number' => $model->sensors()->count(),
+            'number' => $model->nodes()->count(),
         ];
     }
 }

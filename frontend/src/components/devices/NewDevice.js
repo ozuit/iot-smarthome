@@ -39,7 +39,7 @@ class NewDevice extends React.Component {
   handleCreate() {
     const { device } = this.state;
     
-    api.post("/device", device).then((res) => {
+    api.post("/node", device).then((res) => {
       if(res.status) {
         alert('Create Successful!')
       }

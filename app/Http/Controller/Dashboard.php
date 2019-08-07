@@ -2,14 +2,14 @@
 namespace App\Http\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\SensorService;
+use App\Service\NodeService;
 use App\Service\UserService;
 
 class Dashboard extends Api
 {
-    protected function getService() : SensorService
+    protected function getService() : NodeService
     {
-        return $this->get(SensorService::class);
+        return $this->get(NodeService::class);
     }
 
     protected $actions = [

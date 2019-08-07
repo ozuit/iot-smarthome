@@ -1,7 +1,7 @@
 # These are resources
 resources:
   room:
-  sensor:
+  node:
   account:
   acl:
 
@@ -19,8 +19,8 @@ rules:
   - ['allow', ['ADMIN'], ['room'], ['create', 'update', 'delete', 'view_menu', 'update_role']]
   
   # Sensor
-  - ['allow', ['GUEST', 'AGENT', 'ADMIN', 'ACCOUNTANT'], ['sensor'], ['read']]
-  - ['allow', ['ADMIN'], ['sensor'], ['create', 'update', 'delete', 'view_menu', 'update_role']]
+  - ['allow', ['GUEST', 'AGENT', 'ADMIN', 'ACCOUNTANT'], ['node'], ['read']]
+  - ['allow', ['ADMIN'], ['node'], ['create', 'update', 'delete', 'view_menu', 'update_role']]
   
   # Account
   - ['allow', ['GUEST', 'AGENT', 'ADMIN', 'ACCOUNTANT'], ['account'], ['read']]

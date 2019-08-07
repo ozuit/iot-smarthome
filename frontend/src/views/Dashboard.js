@@ -49,7 +49,7 @@ class Dashboard extends React.Component
   }
 
   turnOffAll() {
-    api.put('/device/turn-off-all', {
+    api.put('/node/turn-off-all', {
       topic: 'smarthome/devices',
       payload: mqtt.signature('turn-off-all')
     })

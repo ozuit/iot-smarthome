@@ -31,7 +31,7 @@ class NewDevice extends React.Component {
   componentWillMount() {
     const { match: { params } } = this.props;
 
-    api.get("/device/" + params.device_id).then((res) => {
+    api.get("/node/" + params.device_id).then((res) => {
         this.setState({
             device: res.data
         })
@@ -48,7 +48,7 @@ class NewDevice extends React.Component {
     const { match: { params } } = this.props;
     const { device } = this.state;
     
-    api.put("/device/" + params.device_id, device).then((res) => {
+    api.put("/node/" + params.device_id, device).then((res) => {
       if(res.status) {
         alert('Update Successful!')
       }

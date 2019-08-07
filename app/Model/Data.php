@@ -7,7 +7,7 @@ class Data extends Base
     protected $table = 'data';
 
     protected $fillable = [
-        'sensor_id', 'room_id', 'type', 'value',
+        'node_id', 'room_id', 'type', 'value',
     ];
 
     public function room()
@@ -15,8 +15,8 @@ class Data extends Base
         return $this->belongsTo(Room::class, 'room_id', 'id');
     }
     
-    public function sensor()
+    public function node()
     {
-        return $this->belongsTo(Sensor::class, 'sensor_id', 'id');
+        return $this->belongsTo(Node::class, 'node_id', 'id');
     }
 }

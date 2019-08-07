@@ -20,7 +20,7 @@ class Router extends RouteLoader
         $routing->get('/', $this->to('Home', 'index'), 'home');
         $routing->post('/api/v1/user/login', $r->to('User', 'login'), 'api_v1_user_login');
         $routing->put('/api/v1/user/resetpass', $r->to('User', 'resetpass'), 'api_v1_user_resetpass');
-        $routing->put('/api/internal/device/update', $r->to('Sensor', 'ifttt'), 'api_v1_ifttt_put');
+        $routing->put('/api/internal/node/update', $r->to('Node', 'ifttt'), 'api_v1_ifttt_put');
 
         $routing->group('/api/v1', function ($group) use ($r) {
             $group->get('/user', $r->to('User', 'api'), 'api_v1_user_get');
@@ -36,12 +36,12 @@ class Router extends RouteLoader
             $group->post('/room', $r->to('Room', 'api'), 'api_v1_room_post');
             $group->put('/room/{id}', $r->to('Room', 'api'), 'api_v1_room_put');
             
-            $group->get('/device', $r->to('Sensor', 'api'), 'api_v1_sensor_get');
-            $group->get('/device/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_find');
-            $group->post('/device', $r->to('Sensor', 'api'), 'api_v1_sensor_post');
-            $group->put('/device/turn-off-all', $r->to('Sensor', 'turnOffAll'), 'api_v1_turn_off_all');
-            $group->put('/device/update/{id}', $r->to('Sensor', 'update'), 'api_v1_device_update');
-            $group->put('/device/{id}', $r->to('Sensor', 'api'), 'api_v1_sensor_put');
+            $group->get('/node', $r->to('Node', 'api'), 'api_v1_node_get');
+            $group->get('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_find');
+            $group->post('/node', $r->to('Node', 'api'), 'api_v1_node_post');
+            $group->put('/node/turn-off-all', $r->to('Node', 'turnOffAll'), 'api_v1_turn_off_all');
+            $group->put('/node/update/{id}', $r->to('Node', 'update'), 'api_v1_node_update');
+            $group->put('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_put');
             
             $group->get('/data', $r->to('Data', 'api'), 'api_v1_data_get');
             $group->get('/data/temp', $r->to('Data', 'temp'), 'api_v1_data_temp_get');

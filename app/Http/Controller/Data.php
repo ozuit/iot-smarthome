@@ -4,7 +4,7 @@ namespace App\Http\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\DataService;
-use App\Model\Sensor;
+use App\Model\Node;
 
 class Data extends Api
 {
@@ -29,7 +29,7 @@ class Data extends Api
 
     protected function temp(): Response
     {
-        $temps = $this->getService()->where('sensor_id', Sensor::TEMP)->orderBy('created_at', 'desc')->limit(30)->pluck('value')->all();
+        $temps = $this->getService()->where('node_id', Node::TEMP)->orderBy('created_at', 'desc')->limit(30)->pluck('value')->all();
         return $this->json([
             'status' => true,
             'data' => $temps,
@@ -38,7 +38,7 @@ class Data extends Api
     
     protected function hum(): Response
     {
-        $hums = $this->getService()->where('sensor_id', Sensor::HUM)->orderBy('created_at', 'desc')->limit(30)->pluck('value')->all();
+        $hums = $this->getService()->where('node_id', Node::HUM)->orderBy('created_at', 'desc')->limit(30)->pluck('value')->all();
         return $this->json([
             'status' => true,
             'data' => $hums,

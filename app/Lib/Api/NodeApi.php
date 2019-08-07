@@ -2,17 +2,17 @@
 
 namespace App\Lib\Api;
 
-use App\Model\Sensor;
+use App\Model\Node;
 
-class SensorApi extends BaseApi
+class NodeApi extends BaseApi
 {
-    protected $route = 'api_v1_sensor_find';
+    protected $route = 'api_v1_node_find';
 
     protected $include_variables = [
         'room',
     ];
 
-    protected function transform(Sensor $model)
+    protected function transform(Node $model)
     {
         return [
             'id' => $model->id,
@@ -23,8 +23,8 @@ class SensorApi extends BaseApi
         ];
     }
 
-    protected function includeRoom(Sensor $sensor)
+    protected function includeRoom(Node $node)
     {
-        return $this->get(RoomApi::class)->render($sensor->room);
+        return $this->get(RoomApi::class)->render($node->room);
     }
 }

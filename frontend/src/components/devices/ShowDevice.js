@@ -26,7 +26,7 @@ class ShowDevice extends React.Component {
   fetchData() {
     const { match: { params } } = this.props;
 
-    api.get("/device", {
+    api.get("/node", {
         params: {
             _filter: `room_id:${params.room_id};is_sensor:0`
         }
@@ -39,7 +39,7 @@ class ShowDevice extends React.Component {
 
   handleControl(device) {
     const payload = device.active ? '0' : '1'
-    api.put('/device/update/' + device.id, {
+    api.put('/node/update/' + device.id, {
         topic: device.topic,
         payload: mqtt.signature(payload),
         status: payload,

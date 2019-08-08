@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 
 import PageTitle from "../components/common/PageTitle";
 
-class Rooms extends React.Component 
+class Sensors extends React.Component 
 {
   constructor(props) {
     super(props)
 
     this.state = {
-      roomsData: [],
+      sensorsData: [],
       openModal: false,
-      deleteRoomId: null,
+      deleteSensorId: null,
     }
   }
 
@@ -22,28 +22,33 @@ class Rooms extends React.Component
   }
 
   fetch() {
-    api.get('/room').then((res) => {
+    api.get('/node', {
+      params: {
+        _filter: 'is_sensor:1',
+        _relations: 'room'
+      }
+    }).then((res) => {
       this.setState({
-        roomsData: res.data
+        sensorsData: res.data
       })
     })
   }
   
-  handleDelete(room_id) {
+  handleDelete(sensor_id) {
     this.setState({
       openModal: true,
-      deleteRoomId: room_id
+      deleteSensorId: sensor_id
     })
   }
 
   render() {
-    let { roomsData, openModal, deleteRoomId } = this.state;
+    let { sensorsData, openModal, deleteSensorId } = this.state;
 
     return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle sm="4" title="List Items" subtitle="Rooms" className="text-sm-left" />
+          <PageTitle sm="4" title="List Items" subtitle="Sensors" className="text-sm-left" />
         </Row>
 
         <Row>
@@ -52,11 +57,11 @@ class Rooms extends React.Component
               <CardHeader className="border-bottom">
                 <Row>
                   <Col>
-                    <h6 className="m-0">Rooms Table</h6>
+                    <h6 className="m-0">Sensors Table</h6>
                   </Col>
                   <Col>
-                    <Button theme="success" style={{ float: 'right' }} tag={Link} to="new-room">
-                      New Room
+                    <Button theme="success" style={{ float: 'right' }} tag={Link} to="new-sensor">
+                      New Sensor
                     </Button>
                   </Col>
                 </Row>
@@ -75,7 +80,10 @@ class Rooms extends React.Component
                         Topic
                       </th>
                       <th scope="col" className="border-0">
-                        Nodes Number
+                        Active
+                      </th>
+                      <th scope="col" className="border-0">
+                        Room
                       </th>
                       <th scope="col" className="border-0">
                         Action
@@ -84,20 +92,18 @@ class Rooms extends React.Component
                   </thead>
                   <tbody>
                     {
-                      roomsData.map((room, index) => (
+                      sensorsData.map((sensor, index) => (
                         <tr key={index}>
                           <td>{ index + 1 }</td>
-                          <td>{ room.name }</td>
-                          <td>{ room.topic }</td>
-                          <td>{ room.number }</td>
+                          <td>{ sensor.name }</td>
+                          <td>{ sensor.topic }</td>
+                          <td>{ sensor.active === 1 ? 'True' : 'False' }</td>
+                          <td>{ sensor.room_id ? sensor.room.data.name : '' }</td>
                           <td>
-                            <Link to={"show-device/" + room.id}>
-                              <i className="material-icons mr-2" style={styles.button}>devices_other</i>
+                            <Link to={"edit-sensor/" + sensor.id}>
+                              <i className="material-icons mr-2" style={styles.edit}>edit</i>
                             </Link>
-                            <Link to={"edit-room/" + room.id}>
-                              <i className="material-icons mr-2" style={styles.button}>edit</i>
-                            </Link>
-                            <i className="material-icons mr-2" style={styles.button} onClick={() => this.handleDelete(room.id)}>delete</i>
+                            <i className="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(sensor.id)}>delete</i>
                           </td>
                         </tr>
                       ))
@@ -110,11 +116,11 @@ class Rooms extends React.Component
         </Row>
 
         <Modal open={openModal}>
-          <ModalHeader>Delete Room</ModalHeader>
+          <ModalHeader>Delete Sensor</ModalHeader>
           <ModalBody>
-            <h6>Are you sure you want to delete this room ?</h6>
+            <h6>Are you sure you want to delete this sensor ?</h6>
             <Button outline theme="warning" className="mr-2" onClick={() => {
-              api.delete('/room/' + deleteRoomId).then((res) => {
+              api.delete('/node/' + deleteSensorId).then((res) => {
                 this.setState({ openModal: false })
                 this.fetch()
               })
@@ -128,11 +134,16 @@ class Rooms extends React.Component
 }
 
 const styles = {
-  button: {
+  edit: {
     cursor: 'pointer',
     fontSize: 14,
     color: '#5a6169',
   },
+  delete: {
+    cursor: 'pointer',
+    color: '#5a6169',
+    fontSize: 14,
+  }
 }
 
-export default Rooms;
+export default Sensors;

@@ -24,6 +24,7 @@ class Devices extends React.Component
   fetch() {
     api.get('/node', {
       params: {
+        _filter: 'is_sensor:0',
         _relations: 'room'
       }
     }).then((res) => {

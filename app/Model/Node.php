@@ -10,7 +10,7 @@ class Node extends Base
     const TEMP = 2;
 
     protected $fillable = [
-        'name', 'room_id', 'active', 'topic',
+        'name', 'room_id', 'active', 'topic', 'is_sensor',
     ];
 
     public function room()

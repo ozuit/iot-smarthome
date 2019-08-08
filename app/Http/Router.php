@@ -42,6 +42,7 @@ class Router extends RouteLoader
             $group->put('/node/turn-off-all', $r->to('Node', 'turnOffAll'), 'api_v1_turn_off_all');
             $group->put('/node/update/{id}', $r->to('Node', 'update'), 'api_v1_node_update');
             $group->put('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_put');
+            $group->delete('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_delete');
             
             $group->get('/data', $r->to('Data', 'api'), 'api_v1_data_get');
             $group->get('/data/temp', $r->to('Data', 'temp'), 'api_v1_data_temp_get');

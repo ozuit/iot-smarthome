@@ -18,17 +18,25 @@ import {
 import api from "../../api";
 import { Link } from "react-router-dom";
 
-class NewDevice extends React.Component {
+class NewSensor extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      device: {},
+      sensor: {},
       roomData: [],
     }
   }
 
   componentWillMount() {
+    const { match: { params } } = this.props;
+
+    api.get("/node/" + params.sensor_id).then((res) => {
+        this.setState({
+            sensor: res.data
+        })
+    })
+
     api.get('/room').then((res) => {
       this.setState({
         roomData: res.data
@@ -36,19 +44,19 @@ class NewDevice extends React.Component {
     })
   }
 
-  handleCreate() {
-    const { device } = this.state;
-    device.is_sensor = false;
+  handleUpdate() {
+    const { match: { params } } = this.props;
+    const { sensor } = this.state;
     
-    api.post("/node", device).then((res) => {
+    api.put("/node/" + params.sensor_id, sensor).then((res) => {
       if(res.status) {
-        alert('Create Successful!')
+        alert('Update Successful!')
       }
     })
   }
 
   render() {
-    const { device, roomData } = this.state;
+    const { sensor, roomData } = this.state;
 
     return (
       <Container fluid className="main-content-container py-4 px-4">
@@ -62,12 +70,12 @@ class NewDevice extends React.Component {
                 <Col>
                   <Form>
                     <FormGroup>
-                      <label htmlFor="feName">Name Device</label>
+                      <label htmlFor="feName">Name Sensor</label>
                       <FormInput
                         id="feName"
-                        placeholder="Enter a name for device or sensor"
-                        value={device.name || ''}
-                        onChange={(e) => this.setState({ device: { ...device, name: e.target.value } })}
+                        placeholder="Enter a name for sensor or sensor"
+                        value={sensor.name || ''}
+                        onChange={(e) => this.setState({ sensor: { ...sensor, name: e.target.value } })}
                       />
                     </FormGroup>
 
@@ -75,44 +83,44 @@ class NewDevice extends React.Component {
                       <label htmlFor="feTopic">Topic</label>
                       <FormInput
                         id="feTopic"
-                        placeholder="Enter a topic for device"
-                        value={device.topic || ''}
-                        onChange={(e) => this.setState({ device: { ...device, topic: e.target.value } })}
+                        placeholder="Enter a topic for sensor"
+                        value={sensor.topic || ''}
+                        onChange={(e) => this.setState({ sensor: { ...sensor, topic: e.target.value } })}
                       />
                     </FormGroup>
 
                     <FormGroup>
                       <label htmlFor="feRoom">Room</label>
-                      <FormSelect id="feRoom" onChange={(e) => this.setState({ device: { ...device, room_id: e.target.value } })}>
+                      <FormSelect id="feRoom" onChange={(e) => this.setState({ sensor: { ...sensor, room_id: e.target.value } })}>
                         {
                           roomData.map((room, index) => (
-                            <option key={index} value={room.id}>{ room.name }</option>
+                            <option key={index} value={room.id} selected={ room.id === sensor.room_id }>{ room.name }</option>
                           ))
                         }
                       </FormSelect>
                     </FormGroup>
-
+                    
                     <FormGroup>
                       <FormRadio
                         inline
                         name="active"
-                        checked={device.active === 1}
-                        onChange={() => this.setState({ device: { ...device, active: 1 } })}
+                        checked={sensor.active === 1}
+                        onChange={() => this.setState({ sensor: { ...sensor, active: 1 } })}
                       >
                         Active
                       </FormRadio>
                       <FormRadio
                         inline
                         name="active"
-                        checked={device.active === 0}
-                        onChange={() => this.setState({ device: { ...device, active: 0 } })}
+                        checked={sensor.active === 0}
+                        onChange={() => this.setState({ sensor: { ...sensor, active: 0 } })}
                       >
                         Unactive
                       </FormRadio>
                     </FormGroup>
                    
-                    <Button theme="info" outline className="mr-2" tag={Link} to="/devices">Go Back</Button>
-                    <Button theme="accent" onClick={() => this.handleCreate()}>Create Device</Button>
+                    <Button theme="info" outline className="mr-2" tag={Link} to="/sensors">Go Back</Button>
+                    <Button theme="accent" onClick={() => this.handleUpdate()}>Update Sensor</Button>
                   </Form>
                 </Col>
               </Row>
@@ -124,15 +132,15 @@ class NewDevice extends React.Component {
   }
 };
 
-NewDevice.propTypes = {
+NewSensor.propTypes = {
   /**
    * The component's title.
    */
   title: PropTypes.string
 };
 
-NewDevice.defaultProps = {
-  title: "Device Details"
+NewSensor.defaultProps = {
+  title: "Sensor Details"
 };
 
-export default NewDevice;
+export default NewSensor;

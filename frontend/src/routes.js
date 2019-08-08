@@ -19,6 +19,9 @@ import EditDevice from "./components/devices/EditDevice";
 import Users from "./views/Users";
 import NewUser from "./components/users/NewUser";
 import EditUser from "./components/users/EditUser";
+import Sensors from "./views/Sensors";
+import NewSensor from "./components/sensors/NewSensor";
+import EditSensor from "./components/sensors/EditSensor";
 
 export default [
   {
@@ -78,6 +81,22 @@ export default [
     path: "/show-device/:room_id",
     layout: DefaultLayout,
     component: authHOC(ShowDevice)
+  },
+  // Sensors
+  {
+    path: "/sensors",
+    layout: DefaultLayout,
+    component: authHOC(Sensors)
+  },
+  {
+    path: "/new-sensor",
+    layout: DefaultLayout,
+    component: authHOC(NewSensor)
+  },
+  {
+    path: "/edit-sensor/:sensor_id",
+    layout: DefaultLayout,
+    component: authHOC(EditSensor)
   },
   // Users
   {

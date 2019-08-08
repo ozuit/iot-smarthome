@@ -22,7 +22,7 @@ class Dashboard extends Api
         $result = [];
         foreach($devices as $device) {
             $result[] = [
-                'label' => $device->room->name . ' DEVICES',
+                'label' => $device->room->name . ' NODES',
                 'value' => $device->number
             ];
         }

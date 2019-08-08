@@ -17,6 +17,11 @@ export default function() {
       to: "/devices",
     },
     {
+      title: "Sensors",
+      htmlBefore: '<i class="material-icons">bug_report</i>',
+      to: "/sensors",
+    },
+    {
       title: "Users",
       htmlBefore: '<i class="material-icons">people</i>',
       to: "/users",

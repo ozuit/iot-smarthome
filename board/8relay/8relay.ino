@@ -189,18 +189,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
           digitalWrite(PIN_D6, LOW);
        }
     }
-    else if (topicStr == "smarthome/devices")
-    {
-       if(state == "turn-off-all") {
-          digitalWrite(PIN_D0, LOW);
-          digitalWrite(PIN_D1, LOW);
-          digitalWrite(PIN_D2, LOW);
-          digitalWrite(PIN_D3, LOW);
-          digitalWrite(PIN_D4, LOW);
-          digitalWrite(PIN_D5, LOW);
-          digitalWrite(PIN_D6, LOW);
-       }
-    }
   } else {
     Serial.println("Wrong signature or outdated!");
   }

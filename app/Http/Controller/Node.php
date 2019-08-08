@@ -111,12 +111,13 @@ class Node extends Api
         $server = env('MQTT_SERVER');
         $port = env('MQTT_PORT');
         $client_id = env('MQTT_CLIENT_ID');
-        $topic = $this->getJsonData('topic', 'trash');
-        $payload = $this->getJsonData('payload', '');
 
         $mqtt = new phpMQTT($server, $port, $client_id);
         if ($mqtt->connect()) {
-            $mqtt->publish($topic, $payload);
+            $devices = $this->getService()->where('is_sensor', 0)->get();
+            foreach($devices as $device) {
+                $mqtt->publish($device->topic, $this->signature('0'));
+            }
             $mqtt->close();
 
             $this->getService()->where('is_sensor', 0)->update([

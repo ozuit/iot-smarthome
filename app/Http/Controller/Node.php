@@ -27,17 +27,42 @@ class Node extends Api
         ];
     }
 
-    protected function ifttt(): Response
+    protected function signature($payload)
     {
-        $status = $this->getJsonData('status');
-        $topic = $this->getJsonData('topic');
-        if (isset($status)) {
-            $device = $this->getService()->where('topic', $topic)->first();
-            $device->active = $status;
-            $device->save();
-            return $this->json([
-                'status' => true,
-            ]);
+        $ts = time();
+        $data = $ts . '|' . $payload;
+        return md5($data . '|' . env('MQTT_SECRET_KEY')) . '|' . $data;
+    }
+
+    protected function ifttt($internal_token): Response
+    {
+        $server = env('MQTT_SERVER');
+        $port = env('MQTT_PORT');
+        $client_id = env('MQTT_CLIENT_ID');
+
+        $mqtt = new phpMQTT($server, $port, $client_id);
+        $topic = $this->getJsonData('topic', 'trash');
+        $status = $this->getJsonData('status', '');
+        $payload = $this->signature($status);
+        
+        if (isset($status) && $internal_token == env('INTERNAL_TOKEN')) {
+            if ($mqtt->connect()) {
+                $mqtt->publish($topic, $payload);
+                $mqtt->close();
+
+                $device = $this->getService()->where('topic', $topic)->first();
+                $device->active = $status;
+                $device->save();
+                
+                return $this->json([
+                    'status' => true,
+                ]);
+            } else {
+                return $this->json([
+                    'status' => false,
+                    'message' => 'Time out!'
+                ]);
+            }
         }
         return $this->json([
             'status' => false,

@@ -20,7 +20,7 @@ class Router extends RouteLoader
         $routing->get('/', $this->to('Home', 'index'), 'home');
         $routing->post('/api/v1/user/login', $r->to('User', 'login'), 'api_v1_user_login');
         $routing->put('/api/v1/user/resetpass', $r->to('User', 'resetpass'), 'api_v1_user_resetpass');
-        $routing->put('/api/internal/node/update', $r->to('Node', 'ifttt'), 'api_v1_ifttt_put');
+        $routing->put('/api/{internal_token}/node/update', $r->to('Node', 'ifttt'), 'api_v1_ifttt_put');
 
         $routing->group('/api/v1', function ($group) use ($r) {
             $group->get('/user', $r->to('User', 'api'), 'api_v1_user_get');

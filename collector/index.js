@@ -4,7 +4,7 @@ const mysql = require('mysql')
 const dotenv = require('dotenv');
 dotenv.config();
 const secret_key = process.env.MQTT_SECRET_KEY || ''
-let sensorMapTable = {}
+let nodeMapTable = {}
 
 const mysql_con = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -16,14 +16,14 @@ const mysql_con = mysql.createConnection({
 const client = mqtt.connect('mqtt://94.237.73.225')
 
 const refreshSensorMapTable = function(cb) {
-    sensorMapTable = {}
+    nodeMapTable = {}
 
-    let sql = `SELECT * FROM sensor`
+    let sql = `SELECT * FROM node`
     mysql_con.query(sql, function (err, result) {
         if (err) throw err;
         
         result.forEach(function(row, idx) {
-            sensorMapTable[row.topic] = row.id
+            nodeMapTable[row.topic] = row.id
         })
 
         if (cb) cb();
@@ -36,7 +36,7 @@ const registerMQTT = function() {
         const levels = topic.split('/')
 
         if (result = util.verify(message.toString(), secret_key)) {
-            const record = {sensor_id: sensorMapTable[topic], topic: topic, value: parseFloat(result.payload)}
+            const record = {node_id: nodeMapTable[topic], topic: topic, value: parseFloat(result.payload)}
             mysql_con.query('INSERT INTO data SET ?', record, function (error, results, fields) {
                 if (error) console.error(error)
             });

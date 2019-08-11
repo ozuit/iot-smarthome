@@ -7,11 +7,15 @@
 #include <stdlib.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
+#include <Wire.h>
+#include "BH1750FVI.h"
 
-#define DHTPIN 4 // D2 on esp8266
+BH1750FVI LightSensor;
 
-const char* ssid     = "MINH THU 5";
-const char* password = "55555555";
+#define DHTPIN 16 // D0 on esp8266
+
+const char* ssid     = "Dung Trang";
+const char* password = "ozu@1234";
 const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
 const long utcOffsetInSeconds = 0;
@@ -49,8 +53,6 @@ char* signature(char* payload)
   str_payload.trim();
   String hash_data = String(ts) + '|' + str_payload + '|' + String(secret_key);
 
-  Serial.println(hash_data);
-
   char * cstr = new char [hash_data.length()+1];
   strcpy (cstr, hash_data.c_str());
 
@@ -68,6 +70,9 @@ void setup()
 {
   dht.setup(DHTPIN, DHTesp::DHT22);
   Serial.begin(115200);
+  LightSensor.begin();
+  LightSensor.SetAddress(Device_Address_H);
+  LightSensor.SetMode(Continuous_H_resolution_Mode);
   setup_wifi();
   timeClient.begin();
   client.setServer(mqtt_server, 1883);
@@ -97,6 +102,14 @@ void loop()
 
   client.publish("smarthome/living-room/sensor/temp/sensor1", signature(temperatureTemp));
   client.publish("smarthome/living-room/sensor/hum/sensor1", signature(humidityTemp));
+
+  uint16_t lux = LightSensor.GetLightIntensity();
+  Serial.print("Light: ");
+  Serial.println(lux);
+  float luxFloat = lux;
+  static char luxChar[7];
+  dtostrf(luxFloat, 6, 2, luxChar);
+  client.publish("smarthome/living-room/sensor/light/sensor1", signature(luxChar));
 
   delay(2000);
 }

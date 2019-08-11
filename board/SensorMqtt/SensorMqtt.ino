@@ -13,6 +13,7 @@
 BH1750FVI LightSensor;
 
 #define DHTPIN 16 // D0 on esp8266
+#define PIRPIN 13  // D7 on esp8266
 
 const char* ssid     = "Dung Trang";
 const char* password = "ozu@1234";
@@ -70,6 +71,8 @@ void setup()
 {
   dht.setup(DHTPIN, DHTesp::DHT22);
   Serial.begin(115200);
+
+  pinMode(PIRPIN, INPUT);
   
   LightSensor.begin();
   LightSensor.SetAddress(Device_Address_H);
@@ -120,6 +123,16 @@ void loop()
   static char gasChar[7];
   dtostrf(gasFloat, 6, 2, gasChar);
   client.publish("smarthome/living-room/sensor/gas/sensor1", signature(gasChar));
+
+  long motionState = digitalRead(PIRPIN);
+  if(motionState == HIGH) {
+    Serial.println("Motion detected!");
+    delay(1000);
+  }
+  else {
+    Serial.println("Motion absent!");
+    delay(1000);
+  }
 
   delay(2000);
 }

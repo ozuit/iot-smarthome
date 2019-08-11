@@ -70,9 +70,11 @@ void setup()
 {
   dht.setup(DHTPIN, DHTesp::DHT22);
   Serial.begin(115200);
+  
   LightSensor.begin();
   LightSensor.SetAddress(Device_Address_H);
   LightSensor.SetMode(Continuous_H_resolution_Mode);
+
   setup_wifi();
   timeClient.begin();
   client.setServer(mqtt_server, 1883);
@@ -110,6 +112,14 @@ void loop()
   static char luxChar[7];
   dtostrf(luxFloat, 6, 2, luxChar);
   client.publish("smarthome/living-room/sensor/light/sensor1", signature(luxChar));
+
+  int gas = analogRead(A0);
+  Serial.print("Gas: ");
+  Serial.println(gas);
+  float gasFloat = gas;
+  static char gasChar[7];
+  dtostrf(gasFloat, 6, 2, gasChar);
+  client.publish("smarthome/living-room/sensor/gas/sensor1", signature(gasChar));
 
   delay(2000);
 }

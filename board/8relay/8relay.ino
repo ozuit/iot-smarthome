@@ -73,7 +73,7 @@ void setup() {
   pinMode(PIN_D7, OUTPUT);
   digitalWrite(PIN_D7, LOW);
  
-  Serial.begin(9600);
+  Serial.begin(115200);
   setup_wifi();
   timeClient.begin();
   client.setServer(mqtt_server, 1883);
@@ -135,13 +135,13 @@ void callback(char* topic, byte* payload, unsigned int length) {
           digitalWrite(PIN_D0, LOW);
        }
     }
-    else if (topicStr == "smarthome/living-room/light/device2") // Relay number 7
+    else if (topicStr == "smarthome/living-room/light/device2") // Relay number 1
     {
        if(state == "1") {
-          digitalWrite(PIN_D1, HIGH);
+          digitalWrite(PIN_D7, HIGH);
        }
        else if (state == "0") {
-          digitalWrite(PIN_D1, LOW);
+          digitalWrite(PIN_D7, LOW);
        }
     }
     else if (topicStr == "smarthome/living-room/fan/device1") // Relay number 6

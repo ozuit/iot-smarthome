@@ -1,4 +1,7 @@
 #include <ESP8266WiFi.h>
+#include <DNSServer.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>
 #include <PubSubClient.h>
 #include "MD5.h"
 #include <stdio.h> 
@@ -16,11 +19,9 @@
 #define PIN_D6  12 // Led 2
 #define PIN_D7  13 // Led 1
 
-const char* ssid     = "MINH THU 5";
-const char* password = "55555555";
 const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
-const int timeout = 5;
+const int timeout = 20;
 const long utcOffsetInSeconds = 0;
 
 // Initializes the espClient
@@ -34,20 +35,13 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
 void setup_wifi() {
   delay(10);
   // We start by connecting to a WiFi network
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.print("WiFi connected - ESP IP address: ");
-  Serial.println(WiFi.localIP());
+  WiFiManager wifiManager;
+  wifiManager.autoConnect("AutoConnectAP");
 }
 
 void setup() {
+  Serial.begin(115200);
+  setup_wifi();
 
   pinMode(PIN_D0, OUTPUT);
   digitalWrite(PIN_D0, LOW);
@@ -73,24 +67,42 @@ void setup() {
   pinMode(PIN_D7, OUTPUT);
   digitalWrite(PIN_D7, LOW);
  
-  Serial.begin(115200);
-  setup_wifi();
   timeClient.begin();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
   
 }
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("ESP8266Devices")) {
+      Serial.println("Connected to MQTT Server");
+      // ... and subscribe to topic
+      client.subscribe("smarthome/living-room/light/#");
+      client.subscribe("smarthome/living-room/fan/#");
+      client.subscribe("smarthome/bed-room/light/#");
+      client.subscribe("smarthome/bed-room/fan/#");
+      client.subscribe("smarthome/bath-room/light/#");
+      client.subscribe("smarthome/kitchen/light/#");
+    } else {
+      Serial.print("Connect failed");
+      Serial.println("Try again in 2 seconds");
+      // Wait 2 seconds before retrying
+      delay(2000);
+    }
+  }
+}
  
 void loop() {
   timeClient.update();
-  
-  if(!client.loop()) {  
-    client.connect("ESP8266Client");
-    client.subscribe("smarthome/#");
-    Serial.println("Connected to MQTT Server");
-  }
 
-  delay(2000);
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
 }
 
 boolean verify(byte* payload, unsigned int length)
@@ -118,6 +130,15 @@ boolean verify(byte* payload, unsigned int length)
   return false;
 }
 
+void handleDevice(state, PIN) {
+  if(state == "1") {
+      digitalWrite(PIN, HIGH);
+   }
+   else if (state == "0") {
+      digitalWrite(PIN, LOW);
+   }
+}
+
 void callback(char* topic, byte* payload, unsigned int length) {
   String topicStr = topic;
   
@@ -128,66 +149,31 @@ void callback(char* topic, byte* payload, unsigned int length) {
     
     if (topicStr == "smarthome/living-room/light/device1") // Relay number 8
     {
-       if(state == "1") {
-          digitalWrite(PIN_D0, HIGH);
-       }
-       else if (state == "0") {
-          digitalWrite(PIN_D0, LOW);
-       }
+       handleDevice(state, PIN_D0);
     }
     else if (topicStr == "smarthome/living-room/light/device2") // Relay number 1
     {
-       if(state == "1") {
-          digitalWrite(PIN_D7, HIGH);
-       }
-       else if (state == "0") {
-          digitalWrite(PIN_D7, LOW);
-       }
+       handleDevice(state, PIN_D7);
     }
     else if (topicStr == "smarthome/living-room/fan/device1") // Relay number 6
     {
-       if(state == "1") {
-          digitalWrite(PIN_D2, HIGH);
-       }
-       else if (state == "0") {
-          digitalWrite(PIN_D2, LOW);
-       }
+       handleDevice(state, PIN_D2);
     }
     else if (topicStr == "smarthome/bed-room/light/device1") // Relay number 5
     {
-       if(state == "1") {
-          digitalWrite(PIN_D3, HIGH);
-       }
-       else if (state == "0") {
-          digitalWrite(PIN_D3, LOW);
-       }
+       handleDevice(state, PIN_D3);
     }
     else if (topicStr == "smarthome/bed-room/fan/device1") // Relay number 4
     {
-       if(state == "1") {
-          digitalWrite(PIN_D4, HIGH);
-       }
-       else if (state == "0") {
-          digitalWrite(PIN_D4, LOW);
-       }
+       handleDevice(state, PIN_D4);
     }
     else if (topicStr == "smarthome/bath-room/light/device1") // Relay number 3
     {
-       if(state == "1") {
-          digitalWrite(PIN_D5, HIGH);
-       }
-       else if (state == "0") {
-          digitalWrite(PIN_D5, LOW);
-       }
+       handleDevice(state, PIN_D5);
     }
     else if (topicStr == "smarthome/kitchen/light/device1") // Relay number 2
     {
-       if(state == "1") {
-          digitalWrite(PIN_D6, HIGH);
-       }
-       else if (state == "0") {
-          digitalWrite(PIN_D6, LOW);
-       }
+       handleDevice(state, PIN_D6);
     }
   } else {
     Serial.println("Wrong signature or outdated!");

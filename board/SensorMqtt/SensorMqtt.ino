@@ -1,5 +1,8 @@
 #include "DHTesp.h"
 #include <ESP8266WiFi.h>
+#include <DNSServer.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>
 #include <PubSubClient.h>
 #include "MD5.h"
 #include <stdio.h> 
@@ -9,17 +12,18 @@
 #include <NTPClient.h>
 #include <Wire.h>
 #include "BH1750FVI.h"
+#include "WorkScheduler.h"
+#include "Timer.h"
 
 BH1750FVI LightSensor;
 
 #define DHTPIN 16 // D0 on esp8266
 #define PIRPIN 13  // D7 on esp8266
 
-const char* ssid     = "Dung Trang";
-const char* password = "ozu@1234";
 const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
 const long utcOffsetInSeconds = 0;
+boolean checkMotion = false;
 
 // Initializes the espClient
 WiFiClient espClient;
@@ -33,17 +37,8 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
 void setup_wifi() {
   delay(10);
   // We start by connecting to a WiFi network
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.print("WiFi connected - ESP IP address: ");
-  Serial.println(WiFi.localIP());
+  WiFiManager wifiManager;
+  wifiManager.autoConnect("AutoConnectAP");
 }
 
 char* signature(char* payload)
@@ -66,27 +61,12 @@ char* signature(char* payload)
   
   return cstr_signed;
 }
- 
-void setup()
-{
-  dht.setup(DHTPIN, DHTesp::DHT22);
-  Serial.begin(115200);
 
-  pinMode(PIRPIN, INPUT);
-  
-  LightSensor.begin();
-  LightSensor.SetAddress(Device_Address_H);
-  LightSensor.SetMode(Continuous_H_resolution_Mode);
+//khởi tạo các job
+WorkScheduler *collectDataScheduler;
+WorkScheduler *handleDataScheduler;
 
-  setup_wifi();
-  timeClient.begin();
-  client.setServer(mqtt_server, 1883);
-}
- 
-void loop()
-{
-  timeClient.update();
-  
+void collectData() {
   TempAndHumidity measurement = dht.getTempAndHumidity();
  
   Serial.print("Temperature: ");
@@ -100,10 +80,6 @@ void loop()
 
   static char humidityTemp[7];
   dtostrf(measurement.humidity, 6, 2, humidityTemp);
-    
-  if(!client.loop()) {
-    client.connect("ESP8266Client");
-  }
 
   client.publish("smarthome/living-room/sensor/temp/sensor1", signature(temperatureTemp));
   client.publish("smarthome/living-room/sensor/hum/sensor1", signature(humidityTemp));
@@ -115,24 +91,70 @@ void loop()
   static char luxChar[7];
   dtostrf(luxFloat, 6, 2, luxChar);
   client.publish("smarthome/living-room/sensor/light/sensor1", signature(luxChar));
+}
 
+void handleData() {
   int gas = analogRead(A0);
   Serial.print("Gas: ");
   Serial.println(gas);
   float gasFloat = gas;
-  static char gasChar[7];
-  dtostrf(gasFloat, 6, 2, gasChar);
-  client.publish("smarthome/living-room/sensor/gas/sensor1", signature(gasChar));
+  if (gasFloat > 600) {
+    static char gasChar[7];
+    dtostrf(gasFloat, 6, 2, gasChar);
+    client.publish("smarthome/living-room/sensor/gas/sensor1", signature(gasChar));
+  }
 
   long motionState = digitalRead(PIRPIN);
+  char *kitchenLight = "0";
   if(motionState == HIGH) {
     Serial.println("Motion detected!");
-    delay(1000);
+    checkMotion = !checkMotion;
+    if (checkMotion) {
+      kitchenLight = "1";  
+    } else {
+      kitchenLight = "0";
+    }
+    client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
   }
   else {
     Serial.println("Motion absent!");
-    delay(1000);
+  }
+}
+ 
+void setup()
+{
+  Serial.begin(115200);
+  setup_wifi();
+
+  // Setup temperature sensor
+  dht.setup(DHTPIN, DHTesp::DHT22);
+  // Setup motion sensor
+  pinMode(PIRPIN, INPUT);
+  // Setup light sensor
+  LightSensor.begin();
+  LightSensor.SetAddress(Device_Address_H);
+  LightSensor.SetMode(Continuous_H_resolution_Mode);
+  
+  timeClient.begin();
+  client.setServer(mqtt_server, 1883);
+
+  // Initial class timer (design pattern singleton)
+  Timer::getInstance()->initialize();
+  // Initial jobs
+  collectDataScheduler = new WorkScheduler(10000UL, collectData);
+  handleDataScheduler = new WorkScheduler(1000UL, handleData);
+}
+ 
+void loop()
+{
+  timeClient.update();
+  
+  if(!client.loop()) {
+    client.connect("ESP8266Sensors");
   }
 
-  delay(2000);
+  Timer::getInstance()->update();
+  collectDataScheduler->update();
+  handleDataScheduler->update();
+  Timer::getInstance()->resetTick();
 }

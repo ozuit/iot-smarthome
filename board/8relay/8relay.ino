@@ -130,7 +130,7 @@ boolean verify(byte* payload, unsigned int length)
   return false;
 }
 
-void handleDevice(state, PIN) {
+void handleDevice(String state, int PIN) {
   if(state == "1") {
       digitalWrite(PIN, HIGH);
    }

@@ -23,6 +23,7 @@ BH1750FVI LightSensor;
 const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
 const long utcOffsetInSeconds = 0;
+boolean openKitchenLight = false;
 
 // Initializes the espClient
 WiFiClient espClient;
@@ -108,11 +109,15 @@ void handleData() {
     Serial.println("Motion detected!");
     char *kitchenLight = "1";
     client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
+    openKitchenLight = true;
   }
   else {
     Serial.println("Motion absent!");
-    char *kitchenLight = "0";
-    client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
+    if (openKitchenLight) {
+      char *kitchenLight = "0";
+      client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
+      openKitchenLight = false;
+    }
   }
 }
  

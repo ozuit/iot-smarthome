@@ -16,8 +16,8 @@
 #include "Timer.h"
 #include <Wire.h>
 
-#define D1 5
-#define D2 4
+#define D3 0
+#define D4 2
 
 BH1750FVI LightSensor;
 
@@ -134,7 +134,7 @@ void handleData() {
 void setup()
 {
   Serial.begin(115200);
-  Wire.begin(D1, D2); /* join i2c bus with SDA=D1 and SCL=D2 of NodeMCU */
+  Wire.begin(D3, D4); /* join i2c bus with SDA=D3 and SCL=D4 of NodeMCU */
   setup_wifi();
 
   // Setup temperature sensor

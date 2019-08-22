@@ -14,6 +14,10 @@
 #include "BH1750FVI.h"
 #include "WorkScheduler.h"
 #include "Timer.h"
+#include <Wire.h>
+
+#define D1 5
+#define D2 4
 
 BH1750FVI LightSensor;
 
@@ -24,6 +28,7 @@ const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
 const long utcOffsetInSeconds = 0;
 boolean openKitchenLight = false;
+boolean gasWarning = false;
 
 // Initializes the espClient
 WiFiClient espClient;
@@ -81,8 +86,8 @@ void collectData() {
   static char humidityTemp[7];
   dtostrf(measurement.humidity, 6, 2, humidityTemp);
 
-  client.publish("smarthome/living-room/sensor/temp/sensor1", signature(temperatureTemp));
-  client.publish("smarthome/living-room/sensor/hum/sensor1", signature(humidityTemp));
+  client.publish("smarthome/bed-room/sensor/temp/sensor1", signature(temperatureTemp));
+  client.publish("smarthome/bed-room/sensor/hum/sensor1", signature(humidityTemp));
 
   uint16_t lux = LightSensor.GetLightIntensity();
   Serial.print("Light: ");
@@ -94,14 +99,19 @@ void collectData() {
 }
 
 void handleData() {
-  int gas = analogRead(A0);
+  Wire.requestFrom(8, 3); /* request & read data of size 13 from slave */
+  char gas[4];
+  for (int i = 0; i < 3; i++){
+     gas[i] = Wire.read();
+  }
   Serial.print("Gas: ");
-  Serial.println(gas);
-  float gasFloat = gas;
-  if (gasFloat > 600) {
-    static char gasChar[7];
-    dtostrf(gasFloat, 6, 2, gasChar);
-    client.publish("smarthome/living-room/sensor/gas/sensor1", signature(gasChar));
+  int gasInt = atoi(gas);
+  Serial.println(gasInt);
+  if (gasInt > 500 && gasWarning == false) {
+    gasWarning = true;
+    client.publish("smarthome/kitchen/sensor/gas/sensor1", signature(gas));
+  } else {
+    gasWarning = false;
   }
 
   long motionState = digitalRead(PIRPIN);
@@ -124,6 +134,7 @@ void handleData() {
 void setup()
 {
   Serial.begin(115200);
+  Wire.begin(D1, D2); /* join i2c bus with SDA=D1 and SCL=D2 of NodeMCU */
   setup_wifi();
 
   // Setup temperature sensor

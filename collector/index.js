@@ -4,6 +4,7 @@ const mysql = require('mysql')
 const dotenv = require('dotenv');
 dotenv.config();
 const secret_key = process.env.MQTT_SECRET_KEY || ''
+const maxGas = 500;
 let nodeMapTable = {}
 
 const mysql_con = mysql.createConnection({
@@ -31,15 +32,26 @@ const refreshSensorMapTable = function(cb) {
 }
 
 const registerMQTT = function() {
-    client.subscribe('smarthome/#')
+    client.subscribe('smarthome/+/sensor/#')
     client.on('message', function(topic, message) {
-        const levels = topic.split('/')
-
         if (result = util.verify(message.toString(), secret_key)) {
-            const record = {node_id: nodeMapTable[topic], topic: topic, value: parseFloat(result.payload)}
-            mysql_con.query('INSERT INTO data SET ?', record, function (error, results, fields) {
-                if (error) console.error(error)
-            });
+            if (topic == 'smarthome/kitchen/sensor/gas/sensor1') {
+                if (parseFloat(result.payload) > maxGas) {
+                    client.publish('smarthome/bed-room/fan/device1', util.signature(0, secret_key))
+                    client.publish('smarthome/kitchen/light/device1', util.signature(0, secret_key))
+                    client.publish('smarthome/bath-room/light/device1', util.signature(0, secret_key))
+                    client.publish('smarthome/bed-room/light/device1', util.signature(0, secret_key))
+                    client.publish('smarthome/living-room/fan/device1', util.signature(0, secret_key))
+                    client.publish('smarthome/living-room/light/device2', util.signature(0, secret_key))
+                    client.publish('smarthome/living-room/light/device1', util.signature(0, secret_key))
+                }
+            } else {
+                const record = {node_id: nodeMapTable[topic], topic: topic, value: parseFloat(result.payload)}
+                console.log(record)
+                mysql_con.query('INSERT INTO data SET ?', record, function (error, results, fields) {
+                    if (error) console.error(error)
+                });
+            }
         } else {
             console.error('Wrong signature or outdated!');
         }

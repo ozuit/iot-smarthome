@@ -9,20 +9,29 @@
 #include <stdlib.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
+#include <Wire.h>
+#include "WorkScheduler.h"
+#include "Timer.h"
 
-#define PIN_D0  16 // Led 8
-#define PIN_D1  5 // Led 7
-#define PIN_D2  4 // Led 6
-#define PIN_D3  0 // Led 5
-#define PIN_D4  2 // Led 4
-#define PIN_D5  14 // Led 3
-#define PIN_D6  12 // Led 2
-#define PIN_D7  13 // Led 1
+#define PIN_D0  16
+#define PIN_D1  5
+#define PIN_D2  4
+#define PIN_D3  0
+#define PIN_D4  2
+#define PIN_D5  14
+#define PIN_D6  12
+#define PIN_D7  13
+#define PIN_D8  15
 
 const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
 const int timeout = 20;
 const long utcOffsetInSeconds = 0;
+boolean gasWarning = false;
+
+//khởi tạo các job
+WorkScheduler *collectDataScheduler;
+WorkScheduler *handleDataScheduler;
 
 // Initializes the espClient
 WiFiClient espClient;
@@ -37,40 +46,6 @@ void setup_wifi() {
   // We start by connecting to a WiFi network
   WiFiManager wifiManager;
   wifiManager.autoConnect("AutoConnectAP");
-}
-
-void setup() {
-  Serial.begin(115200);
-  setup_wifi();
-
-  pinMode(PIN_D0, OUTPUT);
-  digitalWrite(PIN_D0, LOW);
-  
-  pinMode(PIN_D1, OUTPUT);
-  digitalWrite(PIN_D1, LOW);
-  
-  pinMode(PIN_D2, OUTPUT);
-  digitalWrite(PIN_D2, LOW);
-  
-  pinMode(PIN_D3, OUTPUT);
-  digitalWrite(PIN_D3, LOW);
-  
-  pinMode(PIN_D4, OUTPUT);
-  digitalWrite(PIN_D4, LOW);
-  
-  pinMode(PIN_D5, OUTPUT);
-  digitalWrite(PIN_D5, LOW);
-  
-  pinMode(PIN_D6, OUTPUT);
-  digitalWrite(PIN_D6, LOW);
-  
-  pinMode(PIN_D7, OUTPUT);
-  digitalWrite(PIN_D7, LOW);
- 
-  timeClient.begin();
-  client.setServer(mqtt_server, 1883);
-  client.setCallback(callback);
-  
 }
 
 void reconnect() {
@@ -89,20 +64,111 @@ void reconnect() {
       client.subscribe("smarthome/kitchen/light/#");
     } else {
       Serial.print("Connect failed");
-      Serial.println("Try again in 2 seconds");
-      // Wait 2 seconds before retrying
-      delay(2000);
+      Serial.println("Try again in 1 seconds");
+      // Wait 1 seconds before retrying
+      delay(1000);
     }
   }
+}
+
+char* signature(char* payload)
+{
+  unsigned long ts = timeClient.getEpochTime();
+
+  String str_payload = String(payload);
+  str_payload.trim();
+  String hash_data = String(ts) + '|' + str_payload + '|' + String(secret_key);
+
+  char * cstr = new char [hash_data.length()+1];
+  strcpy (cstr, hash_data.c_str());
+
+  unsigned char* hash = MD5::make_hash(cstr);
+  char *md5str = MD5::make_digest(hash, 16);
+
+  String signed_payload = String(md5str) + '|' + String(ts) + '|' + str_payload;
+  char * cstr_signed = new char [signed_payload.length()+1];
+  strcpy (cstr_signed, signed_payload.c_str());
+  
+  return cstr_signed;
+}
+
+void collectData() {
+  Wire.requestFrom(8, 3); /* request & read data of size 3 from slave */
+  char gas[3];
+  for (int i = 0; i < 3; i++){
+     gas[i] = Wire.read();
+  }
+  Serial.print("Gas: ");
+  int gasInt = atoi(gas);
+  char gasChar[3];
+  itoa(gasInt, gasChar, 10);
+  Serial.println(gasChar);
+  if (gasInt > 500 && gasWarning == false) {
+    gasWarning = true;
+    digitalWrite(PIN_D0, LOW);
+    digitalWrite(PIN_D3, LOW);
+    digitalWrite(PIN_D4, LOW);
+    digitalWrite(PIN_D5, LOW);
+    digitalWrite(PIN_D6, LOW);
+    digitalWrite(PIN_D7, LOW);
+    digitalWrite(PIN_D8, LOW);
+    client.publish("smarthome/kitchen/sensor/gas/sensor1", signature(gasChar));
+  } else {
+    gasWarning = false;
+  }
+}
+
+void handleData() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+}
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(PIN_D1, PIN_D2); /* join i2c bus with SDA=D1 and SCL=D2 of NodeMCU */
+  setup_wifi();
+
+  pinMode(PIN_D0, OUTPUT);
+  digitalWrite(PIN_D0, LOW);
+  
+  pinMode(PIN_D3, OUTPUT);
+  digitalWrite(PIN_D3, LOW);
+  
+  pinMode(PIN_D4, OUTPUT);
+  digitalWrite(PIN_D4, LOW);
+  
+  pinMode(PIN_D5, OUTPUT);
+  digitalWrite(PIN_D5, LOW);
+  
+  pinMode(PIN_D6, OUTPUT);
+  digitalWrite(PIN_D6, LOW);
+  
+  pinMode(PIN_D7, OUTPUT);
+  digitalWrite(PIN_D7, LOW);
+
+  pinMode(PIN_D8, OUTPUT);
+  digitalWrite(PIN_D8, LOW);
+ 
+  timeClient.begin();
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
+
+  // Initial class timer (design pattern singleton)
+  Timer::getInstance()->initialize();
+  // Initial jobs
+  collectDataScheduler = new WorkScheduler(1000UL, collectData);
+  handleDataScheduler = new WorkScheduler(100UL, handleData);
 }
  
 void loop() {
   timeClient.update();
 
-  if (!client.connected()) {
-    reconnect();
-  }
-  client.loop();
+  Timer::getInstance()->update();
+  collectDataScheduler->update();
+  handleDataScheduler->update();
+  Timer::getInstance()->resetTick();
 }
 
 boolean verify(byte* payload, unsigned int length)
@@ -151,13 +217,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
     {
        handleDevice(state, PIN_D0);
     }
-    else if (topicStr == "smarthome/living-room/light/device2") // Relay number 1
-    {
-       handleDevice(state, PIN_D7);
-    }
     else if (topicStr == "smarthome/living-room/fan/device1") // Relay number 6
     {
-       handleDevice(state, PIN_D2);
+       handleDevice(state, PIN_D8);
     }
     else if (topicStr == "smarthome/bed-room/light/device1") // Relay number 5
     {
@@ -174,6 +236,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
     else if (topicStr == "smarthome/kitchen/light/device1") // Relay number 2
     {
        handleDevice(state, PIN_D6);
+    }
+    else if (topicStr == "smarthome/living-room/light/device2") // Relay number 1
+    {
+       handleDevice(state, PIN_D7);
     }
   } else {
     Serial.println("Wrong signature or outdated!");

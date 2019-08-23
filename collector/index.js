@@ -2,6 +2,7 @@ const mqtt = require('mqtt')
 const util = require('./util')
 const mysql = require('mysql')
 const dotenv = require('dotenv');
+const request = require('request');
 dotenv.config();
 const secret_key = process.env.MQTT_SECRET_KEY || ''
 const maxGas = 500;
@@ -37,6 +38,7 @@ const registerMQTT = function() {
         if (result = util.verify(message.toString(), secret_key)) {
             if (topic == 'smarthome/kitchen/sensor/gas/sensor1') {
                 if (parseFloat(result.payload) > maxGas) {
+                    // Turn off all devices
                     client.publish('smarthome/bed-room/fan/device1', util.signature(0, secret_key))
                     client.publish('smarthome/kitchen/light/device1', util.signature(0, secret_key))
                     client.publish('smarthome/bath-room/light/device1', util.signature(0, secret_key))
@@ -44,6 +46,9 @@ const registerMQTT = function() {
                     client.publish('smarthome/living-room/fan/device1', util.signature(0, secret_key))
                     client.publish('smarthome/living-room/light/device2', util.signature(0, secret_key))
                     client.publish('smarthome/living-room/light/device1', util.signature(0, secret_key))
+
+                    // Send SMS
+                    request.get('https://maker.ifttt.com/trigger/gas_warning/with/key/bkK2wFkIFiUqGRoMCGxfmH')
                 }
             } else {
                 const record = {node_id: nodeMapTable[topic], topic: topic, value: parseFloat(result.payload)}

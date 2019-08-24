@@ -40,6 +40,9 @@ const registerMQTT = function() {
                 if (parseFloat(result.payload) > maxGas) {
                     // Send Notify
                     request.get('https://maker.ifttt.com/trigger/gas_warning/with/key/bkK2wFkIFiUqGRoMCGxfmH')
+                    mysql_con.query('UPDATE node SET active = 0 WHERE is_sensor = 0', function (error, results, fields) {
+                        if (error) console.error(error)
+                    });
                 }
             } else {
                 const record = {node_id: nodeMapTable[topic], topic: topic, value: parseFloat(result.payload)}

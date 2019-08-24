@@ -43,6 +43,6 @@ function fakeDeviceData() {
 
 client.on('connect', function () {
     // fakeSensorData()
-
-    fakeDeviceData()
+    client.publish('smarthome/kitchen/sensor/gas/sensor1', util.signature(600, secret_key))
+    // fakeDeviceData()
 })

@@ -521,6 +521,16 @@ minimist@^1.1.0, minimist@^1.2.0:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
   integrity sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=
 
+moment-random@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/moment-random/-/moment-random-1.0.5.tgz#d885382cf715cc18018a403e3aefda7177cdc3d6"
+  integrity sha512-zToKMGkYQyjTaDSKOUvnOTgSEr7f9wEDe1EuJ6Q3bxu09FSWninC0Ba9HLyWa3kzi/wVcWc0tMrI+gioXkw1ag==
+
+moment@^2.24.0:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
+
 mqtt-packet@^6.0.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/mqtt-packet/-/mqtt-packet-6.2.0.tgz#8e9b101aa1e9ce0ca379d586fceaeb3ac78a193d"

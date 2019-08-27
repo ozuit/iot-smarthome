@@ -144,5 +144,3 @@ storage/cache/**
 !storage/cache/.gitkeep
 public/images/**
 !public/images/.gitkeep
-
-export/*

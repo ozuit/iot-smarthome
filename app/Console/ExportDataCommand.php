@@ -12,7 +12,7 @@ class ExportDataCommand
     {
         $data = $container->get(DataService::class)->whereHas('node', function($query) {
             $query->where('is_sensor', 0);
-        })->get();
+        })->skip(1000)->take(6665)->get();
         $records = [];
         foreach($data as $item) {
             $records[] = [
@@ -21,6 +21,7 @@ class ExportDataCommand
                 strval($item->value),
             ];
         }
+        array_unshift($records, ['time','node_id','value']);
         $filepath = ROOT_PATH."/public/exports/data.xlsx";
         $export = $container->get(Excel::class)->export($records);
         $export->save($filepath);

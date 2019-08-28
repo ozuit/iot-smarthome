@@ -12,11 +12,11 @@ class ExportDataCommand
     {
         $data = $container->get(DataService::class)->whereHas('node', function($query) {
             $query->where('is_sensor', 0);
-        })->skip(1000)->take(6665)->get();
+        })->take(1000)->get();
         $records = [];
         foreach($data as $item) {
             $records[] = [
-                $item->created_at->format('H:i:s'),
+                $item->created_at->format('Hi'),
                 $item->node_id,
                 strval($item->value),
             ];

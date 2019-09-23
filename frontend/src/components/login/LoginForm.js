@@ -24,6 +24,8 @@ class LoginForm extends React.Component {
       password: '',
       showAlert: false,
     }
+
+    document.getElementById('voice-control').style.display = 'none'
   }
 
   handleSubmit(e) {

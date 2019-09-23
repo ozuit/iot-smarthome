@@ -58,7 +58,7 @@ function startRecording() {
 				// Speech to text
 				$.ajax({
 					type: 'POST',
-					url: 'http://localhost:3000/speech-to-text',
+					url: 'http://94.237.73.225:3000/speech-to-text',
 					data: JSON.stringify ({audio: base64}),
 					contentType: "application/json",
 					success: function( data ){

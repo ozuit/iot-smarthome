@@ -1,0 +1,13 @@
+{
+  "name": "SpeechToText",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "export": "export GOOGLE_APPLICATION_CREDENTIALS=\"/Volumes/DATA/Study/luan_van/google/service-account-file.json\""
+  },
+  "dependencies": {
+    "@google-cloud/speech": "^3.2.6",
+    "express": "^4.17.1"
+  }
+}

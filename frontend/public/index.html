@@ -22,11 +22,39 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Shards Dashboard Lite React</title>
+    <style>
+      .voice-container {
+        position: absolute;
+        top: 0;
+        z-index: 9999;
+        left: 220px;
+      }
+      .voice-icon {
+        width: 50px;
+        height: 50px;
+        margin-top: 5px;
+        margin-left: 15px;
+      }
+    </style>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <div class="voice-container">
+      <img
+        style="display: none"
+        id="stopButton"
+        class="voice-icon"
+        src="images/voice/stop.png"
+      />
+      <img
+        style="display: block"
+        id="recordButton"
+        class="voice-icon"
+        src="images/voice/microphone.png"
+      />
+    </div>
     <div id="root"></div>
     <!--
       This HTML file is a template.
@@ -38,5 +66,8 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/WebAudioRecorder.min.js"></script>
+	  <script src="js/app.js"></script>
   </body>
 </html>

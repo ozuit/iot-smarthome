@@ -29,6 +29,10 @@ app.use(function (req, res, next) {
 const speech = require('@google-cloud/speech');
 const fs = require('fs');
 
+app.post('/', (req, res) => {
+  res.send('Speech to text server is runing...')
+})
+
 app.post('/speech-to-text', async (req, res) => {
   // Creates a client
   const client = new speech.SpeechClient();

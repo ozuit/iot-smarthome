@@ -29,7 +29,7 @@ app.use(function (req, res, next) {
 const speech = require('@google-cloud/speech');
 const fs = require('fs');
 
-app.post('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Speech to text server is runing...')
 })
 

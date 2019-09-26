@@ -25,6 +25,7 @@ export default StyleSheet.create({
         width: (width - 8) / 2,
         borderWidth: 1,
         borderColor: '#dddddd',
+        borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#ffffff',

@@ -13,6 +13,7 @@ class RoomApi extends BaseApi
         return [
             'id' => $model->id,
             'name' => $model->name,
+            'icon' => $model->icon,
             'topic' => $model->topic,
             'number' => $model->nodes()->count(),
         ];

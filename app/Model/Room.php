@@ -12,7 +12,7 @@ class Room extends Base
     const KITCHEN = 4;
 
     protected $fillable = [
-        'name', 'topic',
+        'name', 'topic', 'icon'
     ];
 
     public function nodes()

@@ -71,6 +71,16 @@ class NewRoom extends React.Component {
                     </FormGroup>
                     
                     <FormGroup>
+                      <label htmlFor="feIcon">Room Icon</label>
+                      <FormInput
+                        id="feIcon"
+                        placeholder="Enter a icon for room in app"
+                        value={room.icon || ''}
+                        onChange={(e) => this.setState({ room: { ...room, icon: e.target.value } })}
+                      />
+                    </FormGroup>
+
+                    <FormGroup>
                       <label htmlFor="feTopic">Topic</label>
                       <FormInput
                         id="feTopic"

@@ -91,6 +91,7 @@ class User extends Api
             $user_data = [
                 'id' => $user->getKey(),
                 'email' => $user->email,
+                'phone' => $user->phone,
                 'roles' => $user->getRoles(),
                 'name' => $user->name,
                 'area_id' => $user->area_id

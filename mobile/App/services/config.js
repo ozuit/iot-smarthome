@@ -2,7 +2,7 @@ const env = {
     test: 'test', product: 'product', local: 'local',
 };
 const API_URL = {
-    local: 'http://api.iot.test/api/v1',
+    local: 'https://api.ozuiot.xyz/api/v1',
     test: '',
     product: '',
 };

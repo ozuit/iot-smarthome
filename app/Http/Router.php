@@ -23,6 +23,8 @@ class Router extends RouteLoader
         $routing->put('/api/{internal_token}/node/update', $r->to('Node', 'ifttt'), 'api_v1_ifttt_put');
 
         $routing->group('/api/v1', function ($group) use ($r) {
+            $group->get('/me', $r->to('User', 'me'), 'api_v1_user_me');
+
             $group->get('/user', $r->to('User', 'api'), 'api_v1_user_get');
             $group->put('/user/change', $r->to('User', 'change'), 'api_v1_user_change');
             $group->get('/user/{id}', $r->to('User', 'api'), 'api_v1_user_find');

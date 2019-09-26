@@ -11,7 +11,7 @@ use App\Model\User as UserModel;
 class User extends Api
 {
     protected $actions = [
-        'change', 'login', 'resetpass', 'commission',
+        'change', 'login', 'resetpass', 'commission', 'me'
     ];
 
     protected function getService()
@@ -161,6 +161,16 @@ class User extends Api
         return $this->json([
             'status' => true,
             'data' => $result,
+        ]);
+    }
+
+    public function me(): Response
+    {
+        $user = $this->getAuthed();
+
+        return $this->json([
+            'status' => true,
+            'data' => $user
         ]);
     }
 }

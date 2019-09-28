@@ -5,25 +5,6 @@ const app = express()
 const port = 3000
 
 app.use(express.json({limit: '50mb'}))
-// Add headers
-app.use(function (req, res, next) {
-
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'https://ozuiot.xyz');
-
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-
-  // Pass to next layer of middleware
-  next();
-});
 
 // Imports the Google Cloud client library
 const speech = require('@google-cloud/speech');
@@ -50,7 +31,6 @@ app.post('/speech-to-text', async (req, res) => {
   };
   const config = {
     encoding: 'LINEAR16',
-    sampleRateHertz: 44100,
     languageCode: 'vi-VN',
   };
   const request = {

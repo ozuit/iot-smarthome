@@ -38,7 +38,8 @@ class Temperature extends React.Component {
     const chartOptions = {
       responsive: true,
       legend: {
-        position: "top"
+        position: "top",
+        display: false
       },
       elements: {
         line: {
@@ -85,9 +86,6 @@ class Temperature extends React.Component {
         custom: false,
         mode: "nearest",
         intersect: false
-      },
-      legend: {
-        display: false
       },
     };
 

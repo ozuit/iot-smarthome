@@ -25,7 +25,7 @@
 
 const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
-const int timeout = 20;
+const int timeout = 10000;
 const long utcOffsetInSeconds = 0;
 boolean gasWarning = false;
 

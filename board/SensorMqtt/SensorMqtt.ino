@@ -94,19 +94,23 @@ void collectData() {
 }
 
 void handleData() {
-  long motionState = digitalRead(PIRPIN);
-  if(motionState == HIGH) {
-    Serial.println("Motion detected!");
-    char *kitchenLight = "1";
-    client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
-    openKitchenLight = true;
-  }
-  else {
-    Serial.println("Motion absent!");
-    if (openKitchenLight) {
-      char *kitchenLight = "0";
+  int lux = LightSensor.GetLightIntensity();
+
+  if (lux < 1) {
+    long motionState = digitalRead(PIRPIN);
+    if(motionState == HIGH) {
+      Serial.println("Motion detected!");
+      char *kitchenLight = "1";
       client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
-      openKitchenLight = false;
+      openKitchenLight = true;
+    }
+    else {
+      Serial.println("Motion absent!");
+      if (openKitchenLight) {
+        char *kitchenLight = "0";
+        client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
+        openKitchenLight = false;
+      }
     }
   }
 }

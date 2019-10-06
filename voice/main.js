@@ -6,10 +6,17 @@ const port = 3000
 
 app.use(express.json({ limit: '50mb' }))
 
+app.use(function(request, response, next) {
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // Imports the Google Cloud client library
 const speech = require('@google-cloud/speech');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const fs = require('fs');
+const queryIntent = require('./agent');
 
 app.get('/', (req, res) => {
   res.send('Speech to text server is runing...')
@@ -45,8 +52,11 @@ app.post('/speech-to-text', async (req, res) => {
   const transcription = responseS2T.results
     .map(result => result.alternatives[0].transcript);
 
+  // Query to Dialogflow
+  const responseDialogflow = await queryIntent(transcription[0]);
+
   const requestT2S = {
-    input: { text: transcription[0] },
+    input: { text: responseDialogflow.fulfillmentText },
     // Select the language and SSML Voice Gender (optional)
     voice: { languageCode: 'vi-VN', ssmlGender: 'NEUTRAL' },
     // Select the type of audio encoding

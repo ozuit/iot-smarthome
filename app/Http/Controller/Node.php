@@ -9,7 +9,7 @@ use Bluerhinos\phpMQTT;
 class Node extends Api
 {
     protected $actions = [
-        'update', 'turnOffAll', 'ifttt',
+        'update', 'turnOffAll', 'ifttt', 'sleepMode', 'movieMode', 'bookMode'
     ];
 
     protected function getService() : NodeService
@@ -77,10 +77,10 @@ class Node extends Api
 
         $mqtt = new phpMQTT($server, $port, $client_id);
         $topic = $this->getJsonData('topic', 'trash');
-        $payload = $this->getJsonData('payload', '');
-        $status = $this->getJsonData('status', '');
+        $payload = $this->getJsonData('payload', '0');
+        $status = $this->getJsonData('status');
 
-        if ($status != '') {
+        if (isset($status)) {
             if ($mqtt->connect()) {
                 $mqtt->publish($topic, $payload);
                 $mqtt->close();
@@ -117,12 +117,109 @@ class Node extends Api
             $devices = $this->getService()->where('is_sensor', 0)->get();
             foreach($devices as $device) {
                 $mqtt->publish($device->topic, $this->signature('0'));
+                $device->active = 0;
+                $device->save();
             }
             $mqtt->close();
 
-            $this->getService()->where('is_sensor', 0)->update([
-                'active' => 0
+            return $this->json([
+                'status' => true,
             ]);
+        } else {
+            return $this->json([
+                'status' => false,
+                'message' => 'Time out!'
+            ]);
+        }
+    }
+
+    protected function sleepMode() : Response
+    {
+        $server = env('MQTT_SERVER');
+        $port = env('MQTT_PORT');
+        $client_id = env('MQTT_CLIENT_ID');
+
+        $mqtt = new phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect()) {
+            $devices = $this->getService()->where('is_sensor', 0)->get();
+            foreach($devices as $device) {
+                if ($device->topic == 'smarthome/bed-room/fan/device1') {
+                    $mqtt->publish($device->topic, $this->signature('1'));
+                    $device->active = 1;
+                    $device->save();
+                } else {
+                    $mqtt->publish($device->topic, $this->signature('0'));
+                    $device->active = 0;
+                    $device->save();
+                }
+            }
+            $mqtt->close();
+
+            return $this->json([
+                'status' => true,
+            ]);
+        } else {
+            return $this->json([
+                'status' => false,
+                'message' => 'Time out!'
+            ]);
+        }
+    }
+    
+    protected function movieMode() : Response
+    {
+        $server = env('MQTT_SERVER');
+        $port = env('MQTT_PORT');
+        $client_id = env('MQTT_CLIENT_ID');
+
+        $mqtt = new phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect()) {
+            $devices = $this->getService()->where('is_sensor', 0)->get();
+            foreach($devices as $device) {
+                if ($device->topic == 'smarthome/living-room/light/device2' || $device->topic == 'smarthome/living-room/fan/device1') {
+                    $mqtt->publish($device->topic, $this->signature('1'));
+                    $device->active = 1;
+                    $device->save();
+                } else {
+                    $mqtt->publish($device->topic, $this->signature('0'));
+                    $device->active = 0;
+                    $device->save();
+                }
+            }
+            $mqtt->close();
+
+            return $this->json([
+                'status' => true,
+            ]);
+        } else {
+            return $this->json([
+                'status' => false,
+                'message' => 'Time out!'
+            ]);
+        }
+    }
+    
+    protected function bookMode() : Response
+    {
+        $server = env('MQTT_SERVER');
+        $port = env('MQTT_PORT');
+        $client_id = env('MQTT_CLIENT_ID');
+
+        $mqtt = new phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect()) {
+            $devices = $this->getService()->where('is_sensor', 0)->get();
+            foreach($devices as $device) {
+                if ($device->topic == 'smarthome/living-room/light/device2' || $device->topic == 'smarthome/living-room/light/device1' || $device->topic == 'smarthome/living-room/fan/device1') {
+                    $mqtt->publish($device->topic, $this->signature('1'));
+                    $device->active = 1;
+                    $device->save();
+                } else {
+                    $mqtt->publish($device->topic, $this->signature('0'));
+                    $device->active = 0;
+                    $device->save();
+                }
+            }
+            $mqtt->close();
 
             return $this->json([
                 'status' => true,

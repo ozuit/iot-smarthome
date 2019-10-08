@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Card, CardHeader, CardBody, Button, Modal, ModalBody, ModalHeader } from "shards-react";
 import api from "../api";
 import { Link } from "react-router-dom";
+import mqtt from "../utils/mqtt";
 
 import PageTitle from "../components/common/PageTitle";
 
@@ -41,6 +42,18 @@ class Devices extends React.Component
     })
   }
 
+  toggleDevice(device) {
+    api.put('/node/update/' + device.id, {
+      topic: device.topic,
+      payload: mqtt.signature(device.active === 1 ? '0' : '1'),
+      status: device.active === 1 ? 0: 1
+    }).then((res) => {
+      if (res.status) {
+        this.fetch()
+      }
+    })
+  }
+
   render() {
     let { devicesData, openModal, deleteDeviceId } = this.state;
 
@@ -60,7 +73,7 @@ class Devices extends React.Component
                     <h6 className="m-0">Devices Table</h6>
                   </Col>
                   <Col>
-                    <Button theme="success" style={{ float: 'right' }} tag={Link} to="new-device">
+                    <Button theme="primary" style={{ float: 'right' }} tag={Link} to="new-device">
                       New Device
                     </Button>
                   </Col>
@@ -97,7 +110,11 @@ class Devices extends React.Component
                           <td>{ index + 1 }</td>
                           <td>{ device.name }</td>
                           <td>{ device.topic }</td>
-                          <td>{ device.active === 1 ? 'True' : 'False' }</td>
+                          <td>{ device.active === 1 ? (
+                            <Button theme="success" onClick={this.toggleDevice.bind(this, device)}>Mở</Button>
+                          ) : (
+                            <Button theme="light" onClick={this.toggleDevice.bind(this, device)}>Tắt</Button>
+                          )}</td>
                           <td>{ device.room_id ? device.room.data.name : '' }</td>
                           <td>
                             <Link to={"edit-device/" + device.id}>

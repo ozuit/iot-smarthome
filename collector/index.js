@@ -44,7 +44,11 @@ const registerMQTT = function() {
                         if (error) console.error(error)
                     });
                 }
-            } else {
+            }
+            else {
+                if ((topic == 'smarthome/bed-room/sensor/temp/sensor1') && (parseFloat(result.payload) < 25)) {
+                    // Turn off fan
+                }
                 const record = {node_id: nodeMapTable[topic], topic: topic, value: parseFloat(result.payload)}
                 console.log(record)
                 mysql_con.query('INSERT INTO data SET ?', record, function (error, results, fields) {

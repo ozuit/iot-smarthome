@@ -80,9 +80,6 @@ class Sensors extends React.Component
                         Topic
                       </th>
                       <th scope="col" className="border-0">
-                        Active
-                      </th>
-                      <th scope="col" className="border-0">
                         Room
                       </th>
                       <th scope="col" className="border-0">
@@ -97,7 +94,6 @@ class Sensors extends React.Component
                           <td>{ index + 1 }</td>
                           <td>{ sensor.name }</td>
                           <td>{ sensor.topic }</td>
-                          <td>{ sensor.active === 1 ? 'True' : 'False' }</td>
                           <td>{ sensor.room_id ? sensor.room.data.name : '' }</td>
                           <td>
                             <Link to={"edit-sensor/" + sensor.id}>

@@ -42,6 +42,9 @@ class Router extends RouteLoader
             $group->get('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_find');
             $group->post('/node', $r->to('Node', 'api'), 'api_v1_node_post');
             $group->put('/node/turn-off-all', $r->to('Node', 'turnOffAll'), 'api_v1_turn_off_all');
+            $group->put('/node/sleep-mode', $r->to('Node', 'sleepMode'), 'api_v1_sleep_mode');
+            $group->put('/node/movie-mode', $r->to('Node', 'movieMode'), 'api_v1_movie_mode');
+            $group->put('/node/book-mode', $r->to('Node', 'bookMode'), 'api_v1_book_mode');
             $group->put('/node/update/{id}', $r->to('Node', 'update'), 'api_v1_node_update');
             $group->put('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_put');
             $group->delete('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_delete');

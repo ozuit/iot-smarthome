@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col, Button } from "shards-react";
 import api from "../api";
-import mqtt from "../utils/mqtt";
 
 import PageTitle from "../components/common/PageTitle";
 import SmallStats from "../components/common/SmallStats";
@@ -49,10 +48,19 @@ class Dashboard extends React.Component
   }
 
   turnOffAll() {
-    api.put('/node/turn-off-all', {
-      topic: 'smarthome/devices',
-      payload: mqtt.signature('turn-off-all')
-    })
+    api.put('/node/turn-off-all')
+  }
+
+  handleSleepMode() {
+    api.put('/node/sleep-mode')
+  }
+
+  handleMovieMode() {
+    api.put('/node/movie-mode')
+  }
+
+  handleBookMode() {
+    api.put('/node/book-mode')
   }
 
   render() {
@@ -88,15 +96,26 @@ class Dashboard extends React.Component
         </Row>
         
         <Row>
-          {/* Shortcut */}
           <Col lg="6" md="12" sm="12" className="mb-4">
-            <Button outline block theme="dark">
-              Chế Độ Tự Động
+            <Button outline block theme="dark" onClick={this.handleSleepMode.bind(this)}>
+              Chế Độ Đi Ngủ
             </Button>
           </Col>
           <Col lg="6" md="12" sm="12" className="mb-4">
             <Button outline block theme="dark" onClick={this.turnOffAll.bind(this)}>
               Chế Độ Đi Làm
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg="6" md="12" sm="12" className="mb-4">
+            <Button outline block theme="dark" onClick={this.handleMovieMode.bind(this)}>
+              Chế Độ Xem Phim
+            </Button>
+          </Col>
+          <Col lg="6" md="12" sm="12" className="mb-4">
+            <Button outline block theme="dark" onClick={this.handleBookMode.bind(this)}>
+              Chế Độ Đọc Sách
             </Button>
           </Col>
         </Row>

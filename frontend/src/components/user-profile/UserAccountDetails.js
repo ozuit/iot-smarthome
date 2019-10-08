@@ -37,7 +37,7 @@ class UserAccountDetails extends React.Component {
     let { user } = this.state;
     api.put("/user/" + getUserID(), user).then((res) => {
       if(res.status) {
-        alert('Update Successful!')
+        alert('Cập nhật thành công!!')
       }
     })
   }

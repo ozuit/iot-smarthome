@@ -42,7 +42,7 @@ class NewSensor extends React.Component {
     
     api.post("/node", sensor).then((res) => {
       if(res.status) {
-        alert('Create Successful!')
+        alert('Thêm mới thành công!')
       }
     })
   }
@@ -54,7 +54,7 @@ class NewSensor extends React.Component {
       <Container fluid className="main-content-container py-4 px-4">
         <Card small>
           <CardHeader className="border-bottom">
-            <h6 className="m-0">{this.props.title}</h6>
+            <h6 className="m-0">Thêm cảm biến</h6>
           </CardHeader>
           <ListGroup flush>
             <ListGroupItem className="p-3">
@@ -62,10 +62,10 @@ class NewSensor extends React.Component {
                 <Col>
                   <Form>
                     <FormGroup>
-                      <label htmlFor="feName">Name Sensor</label>
+                      <label htmlFor="feName">Tên cảm biến</label>
                       <FormInput
                         id="feName"
-                        placeholder="Enter a name for sensor or sensor"
+                        placeholder="Nhập vào tên của cảm biến"
                         value={sensor.name || ''}
                         onChange={(e) => this.setState({ sensor: { ...sensor, name: e.target.value } })}
                       />
@@ -75,14 +75,14 @@ class NewSensor extends React.Component {
                       <label htmlFor="feTopic">Topic</label>
                       <FormInput
                         id="feTopic"
-                        placeholder="Enter a topic for sensor"
+                        placeholder="Nhập vào một topic cho cảm biến"
                         value={sensor.topic || ''}
                         onChange={(e) => this.setState({ sensor: { ...sensor, topic: e.target.value } })}
                       />
                     </FormGroup>
 
                     <FormGroup>
-                      <label htmlFor="feRoom">Room</label>
+                      <label htmlFor="feRoom">Thuộc phòng</label>
                       <FormSelect id="feRoom" onChange={(e) => this.setState({ sensor: { ...sensor, room_id: e.target.value } })}>
                         {
                           roomData.map((room, index) => (
@@ -92,27 +92,8 @@ class NewSensor extends React.Component {
                       </FormSelect>
                     </FormGroup>
 
-                    <FormGroup>
-                      <FormRadio
-                        inline
-                        name="active"
-                        checked={sensor.active === 1}
-                        onChange={() => this.setState({ sensor: { ...sensor, active: 1 } })}
-                      >
-                        Active
-                      </FormRadio>
-                      <FormRadio
-                        inline
-                        name="active"
-                        checked={sensor.active === 0}
-                        onChange={() => this.setState({ sensor: { ...sensor, active: 0 } })}
-                      >
-                        Unactive
-                      </FormRadio>
-                    </FormGroup>
-                   
-                    <Button theme="info" outline className="mr-2" tag={Link} to="/sensors">Go Back</Button>
-                    <Button theme="accent" onClick={() => this.handleCreate()}>Create Sensor</Button>
+                    <Button theme="info" outline className="mr-2" tag={Link} to="/sensors">Trở về</Button>
+                    <Button theme="accent" onClick={() => this.handleCreate()}>Thêm mới</Button>
                   </Form>
                 </Col>
               </Row>

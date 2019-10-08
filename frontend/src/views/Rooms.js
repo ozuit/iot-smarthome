@@ -43,7 +43,7 @@ class Rooms extends React.Component
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle sm="4" title="List Items" subtitle="Rooms" className="text-sm-left" />
+          <PageTitle sm="4" title="Danh sách phòng" subtitle="Phòng" className="text-sm-left" />
         </Row>
 
         <Row>
@@ -52,11 +52,11 @@ class Rooms extends React.Component
               <CardHeader className="border-bottom">
                 <Row>
                   <Col>
-                    <h6 className="m-0">Rooms Table</h6>
+
                   </Col>
                   <Col>
-                    <Button theme="success" style={{ float: 'right' }} tag={Link} to="new-room">
-                      New Room
+                    <Button theme="primary" style={{ float: 'right' }} tag={Link} to="new-room">
+                      Thêm mới phòng
                     </Button>
                   </Col>
                 </Row>
@@ -69,16 +69,16 @@ class Rooms extends React.Component
                         #
                       </th>
                       <th scope="col" className="border-0">
-                        Name
+                        Tên phòng
                       </th>
                       <th scope="col" className="border-0">
                         Topic
                       </th>
                       <th scope="col" className="border-0">
-                        Nodes Number
+                        Số lượng thiết bị
                       </th>
                       <th scope="col" className="border-0">
-                        Action
+                        Hành động
                       </th>
                     </tr>
                   </thead>
@@ -110,16 +110,16 @@ class Rooms extends React.Component
         </Row>
 
         <Modal open={openModal}>
-          <ModalHeader>Delete Room</ModalHeader>
+          <ModalHeader>Xoá phòng</ModalHeader>
           <ModalBody>
-            <h6>Are you sure you want to delete this room ?</h6>
+            <h6>Bạn có thật sự muốn xoá phòng này không ?</h6>
             <Button outline theme="warning" className="mr-2" onClick={() => {
               api.delete('/room/' + deleteRoomId).then((res) => {
                 this.setState({ openModal: false })
                 this.fetch()
               })
-            }}>Yes</Button>
-            <Button outline theme="primary" onClick={() => { this.setState({ openModal: false }) }}>No</Button>
+            }}>Có</Button>
+            <Button outline theme="primary" onClick={() => { this.setState({ openModal: false }) }}>Không</Button>
           </ModalBody>
         </Modal>
       </Container>

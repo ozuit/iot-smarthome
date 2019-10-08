@@ -68,7 +68,7 @@ class Dashboard extends React.Component
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Home Overview" subtitle="Dashboard" className="text-sm-left mb-3" />
+          <PageTitle title="Tổng quan" subtitle="Giao diện trang chủ" className="text-sm-left mb-3" />
         </Row>
 
         {/* Small Stats Blocks */}

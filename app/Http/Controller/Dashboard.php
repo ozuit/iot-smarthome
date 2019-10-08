@@ -18,16 +18,16 @@ class Dashboard extends Api
 
     protected function data()
     {
-        $devices = $this->getService()->selectRaw('room_id, count(room_id) as number')->groupBy('room_id')->get();
+        $devices = $this->getService()->where('is_sensor', 0)->selectRaw('room_id, count(room_id) as number')->groupBy('room_id')->get();
         $result = [];
         foreach($devices as $device) {
             $result[] = [
-                'label' => $device->room->name . ' NODES',
+                'label' => 'Thiết bị ' . $device->room->name,
                 'value' => $device->number
             ];
         }
         $result[] = [
-            'label' => 'Members',
+            'label' => 'Người dùng',
             'value' => $this->get(UserService::class)->count()
         ];
         return $this->json([

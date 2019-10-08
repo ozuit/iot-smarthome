@@ -30,7 +30,7 @@ class NewUser extends React.Component {
     let { user } = this.state;
     api.post("/user", user).then((res) => {
       if(res.status) {
-        alert('Create Successful!')
+        alert('Thêm mới thành công!')
       }
     })
   }
@@ -42,7 +42,7 @@ class NewUser extends React.Component {
       <Container fluid className="main-content-container py-4 px-4">
         <Card small>
           <CardHeader className="border-bottom">
-            <h6 className="m-0">{this.props.title}</h6>
+            <h6 className="m-0">Thông tin người dùng</h6>
           </CardHeader>
           <ListGroup flush>
             <ListGroupItem className="p-3">
@@ -50,22 +50,22 @@ class NewUser extends React.Component {
                 <Col>
                   <Form>
                     <Row form>
-                      {/* Fullname */}
+                      {/* Họ & tên */}
                       <Col md="6" className="form-group">
-                        <label htmlFor="feFullname">Fullname</label>
+                        <label htmlFor="feFullname">Họ & tên</label>
                         <FormInput
                           id="feFullname"
-                          placeholder="Fullname"
+                          placeholder="Họ & tên"
                           value={user.name || ''}
                           onChange={(e) => this.setState({ user: { ...user, name: e.target.value } })}
                         />
                       </Col>
-                      {/* Phone Number */}
+                      {/* Số điện thoại */}
                       <Col md="6" className="form-group">
-                        <label htmlFor="fePhoneNumber">Phone Number</label>
+                        <label htmlFor="fePhoneNumber">Số điện thoại</label>
                         <FormInput
                           id="fePhoneNumber"
-                          placeholder="Phone Number"
+                          placeholder="Số điện thoại"
                           value={user.phone || ''}
                           onChange={(e) => this.setState({ user: { ...user, phone: e.target.value } })}
                         />
@@ -78,7 +78,7 @@ class NewUser extends React.Component {
                         <FormInput
                           type="email"
                           id="feEmail"
-                          placeholder="Email Address"
+                          placeholder="Địa chỉ email"
                           value={user.email || ''}
                           onChange={(e) => this.setState({ user: { ...user, email: e.target.value } })}
                           autoComplete="email"
@@ -98,10 +98,10 @@ class NewUser extends React.Component {
                       </Col>
                     </Row>
                     <FormGroup>
-                      <label htmlFor="feAddress">Address</label>
+                      <label htmlFor="feAddress">Địa chỉ</label>
                       <FormInput
                         id="feAddress"
-                        placeholder="Address"
+                        placeholder="Địa chỉ"
                         value={user.address || ''}
                         onChange={(e) => this.setState({ user: { ...user, address: e.target.value } })}
                       />
@@ -109,7 +109,7 @@ class NewUser extends React.Component {
                     <Row form>
                       {/* Description */}
                       <Col md="12" className="form-group">
-                        <label htmlFor="feDescription">Description</label>
+                        <label htmlFor="feDescription">Mô tả</label>
                         <FormTextarea id="feDescription" rows="5" 
                           value={user.note || ''}
                           onChange={(e) => this.setState({ user: { ...user, note: e.target.value } })} 
@@ -117,9 +117,9 @@ class NewUser extends React.Component {
                       </Col>
                     </Row>
                    
-                        <Button theme="info" outline className="mr-2" tag={Link} to="/users">Go Back</Button>
+                        <Button theme="info" outline className="mr-2" tag={Link} to="/users">Trở về</Button>
                       
-                        <Button theme="accent" onClick={() => this.handleCreate()}>Create User</Button>
+                        <Button theme="accent" onClick={() => this.handleCreate()}>Thêm mới</Button>
                   </Form>
                 </Col>
               </Row>

@@ -42,7 +42,7 @@ class NewDevice extends React.Component {
     
     api.post("/node", device).then((res) => {
       if(res.status) {
-        alert('Create Successful!')
+        alert('Thêm mới thành công!')
       }
     })
   }
@@ -54,7 +54,7 @@ class NewDevice extends React.Component {
       <Container fluid className="main-content-container py-4 px-4">
         <Card small>
           <CardHeader className="border-bottom">
-            <h6 className="m-0">{this.props.title}</h6>
+            <h6 className="m-0">Thêm thiết bị</h6>
           </CardHeader>
           <ListGroup flush>
             <ListGroupItem className="p-3">
@@ -62,10 +62,10 @@ class NewDevice extends React.Component {
                 <Col>
                   <Form>
                     <FormGroup>
-                      <label htmlFor="feName">Name Device</label>
+                      <label htmlFor="feName">Tên thiết bị</label>
                       <FormInput
                         id="feName"
-                        placeholder="Enter a name for device or sensor"
+                        placeholder="Nhập vào tên thiết bị"
                         value={device.name || ''}
                         onChange={(e) => this.setState({ device: { ...device, name: e.target.value } })}
                       />
@@ -75,14 +75,14 @@ class NewDevice extends React.Component {
                       <label htmlFor="feTopic">Topic</label>
                       <FormInput
                         id="feTopic"
-                        placeholder="Enter a topic for device"
+                        placeholder="Nhập vào một topic cho thiết bị"
                         value={device.topic || ''}
                         onChange={(e) => this.setState({ device: { ...device, topic: e.target.value } })}
                       />
                     </FormGroup>
 
                     <FormGroup>
-                      <label htmlFor="feRoom">Room</label>
+                      <label htmlFor="feRoom">Thuộc phòng</label>
                       <FormSelect id="feRoom" onChange={(e) => this.setState({ device: { ...device, room_id: e.target.value } })}>
                         {
                           roomData.map((room, index) => (
@@ -99,7 +99,7 @@ class NewDevice extends React.Component {
                         checked={device.active === 1}
                         onChange={() => this.setState({ device: { ...device, active: 1 } })}
                       >
-                        Active
+                        Mở
                       </FormRadio>
                       <FormRadio
                         inline
@@ -107,12 +107,12 @@ class NewDevice extends React.Component {
                         checked={device.active === 0}
                         onChange={() => this.setState({ device: { ...device, active: 0 } })}
                       >
-                        Unactive
+                        Tắt
                       </FormRadio>
                     </FormGroup>
                    
-                    <Button theme="info" outline className="mr-2" tag={Link} to="/devices">Go Back</Button>
-                    <Button theme="accent" onClick={() => this.handleCreate()}>Create Device</Button>
+                    <Button theme="info" outline className="mr-2" tag={Link} to="/devices">Trở về</Button>
+                    <Button theme="accent" onClick={() => this.handleCreate()}>Thêm mới</Button>
                   </Form>
                 </Col>
               </Row>

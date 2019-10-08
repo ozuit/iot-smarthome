@@ -30,7 +30,7 @@ class NewRoom extends React.Component {
     
     api.post("/room", room).then((res) => {
       if(res.status) {
-        alert('Create Successful!')
+        alert('Thêm mới phòng thành công!')
       }
     })
   }
@@ -42,7 +42,7 @@ class NewRoom extends React.Component {
       <Container fluid className="main-content-container py-4 px-4">
         <Card small>
           <CardHeader className="border-bottom">
-            <h6 className="m-0">{this.props.title}</h6>
+            <h6 className="m-0">Thêm mới phòng</h6>
           </CardHeader>
           <ListGroup flush>
             <ListGroupItem className="p-3">
@@ -50,37 +50,37 @@ class NewRoom extends React.Component {
                 <Col>
                   <Form>
                     <FormGroup>
-                      <label htmlFor="feName">Name Room</label>
+                      <label htmlFor="feName">Tên phòng</label>
                       <FormInput
                         id="feName"
-                        placeholder="Enter a name for room or sensor"
+                        placeholder="Nhập vào tên phòng bạn muốn đặt"
                         value={room.name || ''}
                         onChange={(e) => this.setState({ room: { ...room, name: e.target.value } })}
                       />
                     </FormGroup>
                     
-                    <FormGroup>
-                      <label htmlFor="feIcon">Room Icon</label>
+                    {/* <FormGroup>
+                      <label htmlFor="feIcon">Hình đại diện</label>
                       <FormInput
                         id="feIcon"
-                        placeholder="Enter a icon for room in app"
+                        placeholder="Nhập vào mã của hình đại diện"
                         value={room.icon || ''}
                         onChange={(e) => this.setState({ room: { ...room, icon: e.target.value } })}
                       />
-                    </FormGroup>
+                    </FormGroup> */}
 
                     <FormGroup>
                       <label htmlFor="feTopic">Topic</label>
                       <FormInput
                         id="feTopic"
-                        placeholder="Enter a topic for room"
+                        placeholder="Nhập vào một topic cho phòng"
                         value={room.topic || ''}
                         onChange={(e) => this.setState({ room: { ...room, topic: e.target.value } })}
                       />
                     </FormGroup>
                    
-                    <Button theme="info" outline className="mr-2" tag={Link} to="/rooms">Go Back</Button>
-                    <Button theme="accent" onClick={() => this.handleCreate()}>Create Room</Button>
+                    <Button theme="info" outline className="mr-2" tag={Link} to="/rooms">Trở về</Button>
+                    <Button theme="accent" onClick={() => this.handleCreate()}>Thêm phòng</Button>
                   </Form>
                 </Col>
               </Row>

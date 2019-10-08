@@ -37,6 +37,7 @@ class Router extends RouteLoader
             $group->get('/room/{id}', $r->to('Room', 'api'), 'api_v1_room_find');
             $group->post('/room', $r->to('Room', 'api'), 'api_v1_room_post');
             $group->put('/room/{id}', $r->to('Room', 'api'), 'api_v1_room_put');
+            $group->delete('/room/{id}', $r->to('Room', 'api'), 'api_v1_room_delete');
             
             $group->get('/node', $r->to('Node', 'api'), 'api_v1_node_get');
             $group->get('/node/{id}', $r->to('Node', 'api'), 'api_v1_node_find');

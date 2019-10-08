@@ -43,7 +43,7 @@ class Users extends React.Component
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle sm="4" title="List Items" subtitle="Users" className="text-sm-left" />
+          <PageTitle sm="4" title="Danh sách người dùng" subtitle="Người dùng" className="text-sm-left" />
         </Row>
 
         <Row>
@@ -52,11 +52,11 @@ class Users extends React.Component
               <CardHeader className="border-bottom">
                 <Row>
                   <Col>
-                    <h6 className="m-0">Users Table</h6>
+
                   </Col>
                   <Col>
-                    <Button theme="success" style={{ float: 'right' }} tag={Link} to="new-user">
-                      New User
+                    <Button theme="primary" style={{ float: 'right' }} tag={Link} to="new-user">
+                      Thêm người dùng
                     </Button>
                   </Col>
                 </Row>
@@ -69,19 +69,19 @@ class Users extends React.Component
                         #
                       </th>
                       <th scope="col" className="border-0">
-                        Name
+                        Họ & tên
                       </th>
                       <th scope="col" className="border-0">
                         Email
                       </th>
                       <th scope="col" className="border-0">
-                        Phone
+                        Số ĐT
                       </th>
                       <th scope="col" className="border-0">
-                        Address
+                        Địa chỉ
                       </th>
                       <th scope="col" className="border-0">
-                        Action
+                        Hành động
                       </th>
                     </tr>
                   </thead>
@@ -113,16 +113,16 @@ class Users extends React.Component
         </Row>
 
         <Modal open={openModal}>
-          <ModalHeader>Delete User</ModalHeader>
+          <ModalHeader>Xoá người dùng</ModalHeader>
           <ModalBody>
-            <h6>Are you sure you want to delete this user ?</h6>
+            <h6>Bạn có thật sự muốn xoá người dùng này không ?</h6>
             <Button outline theme="warning" className="mr-2" onClick={() => {
               api.delete('/user/' + deleteUserId).then((res) => {
                 this.setState({ openModal: false })
                 this.fetch()
               })
-            }}>Yes</Button>
-            <Button outline theme="primary" onClick={() => { this.setState({ openModal: false }) }}>No</Button>
+            }}>Có</Button>
+            <Button outline theme="primary" onClick={() => { this.setState({ openModal: false }) }}>Không</Button>
           </ModalBody>
         </Modal>
       </Container>

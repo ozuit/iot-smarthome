@@ -61,7 +61,7 @@ class Devices extends React.Component
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle sm="4" title="List Items" subtitle="Devices" className="text-sm-left" />
+          <PageTitle sm="4" title="Danh sách thiết bị" subtitle="Thiết bị" className="text-sm-left" />
         </Row>
 
         <Row>
@@ -70,11 +70,11 @@ class Devices extends React.Component
               <CardHeader className="border-bottom">
                 <Row>
                   <Col>
-                    <h6 className="m-0">Devices Table</h6>
+
                   </Col>
                   <Col>
                     <Button theme="primary" style={{ float: 'right' }} tag={Link} to="new-device">
-                      New Device
+                      Thêm thiết bị
                     </Button>
                   </Col>
                 </Row>
@@ -87,19 +87,19 @@ class Devices extends React.Component
                         #
                       </th>
                       <th scope="col" className="border-0">
-                        Name
+                        Tên thiết bị
                       </th>
                       <th scope="col" className="border-0">
                         Topic
                       </th>
                       <th scope="col" className="border-0">
-                        Active
+                        Trạng thái
                       </th>
                       <th scope="col" className="border-0">
-                        Room
+                        Thuộc phòng
                       </th>
                       <th scope="col" className="border-0">
-                        Action
+                        Hành động
                       </th>
                     </tr>
                   </thead>
@@ -133,16 +133,16 @@ class Devices extends React.Component
         </Row>
 
         <Modal open={openModal}>
-          <ModalHeader>Delete Device</ModalHeader>
+          <ModalHeader>Xoá thiết bị</ModalHeader>
           <ModalBody>
-            <h6>Are you sure you want to delete this device ?</h6>
+            <h6>Bạn có thật sự muốn xoá thiết bị này không ?</h6>
             <Button outline theme="warning" className="mr-2" onClick={() => {
               api.delete('/node/' + deleteDeviceId).then((res) => {
                 this.setState({ openModal: false })
                 this.fetch()
               })
-            }}>Yes</Button>
-            <Button outline theme="primary" onClick={() => { this.setState({ openModal: false }) }}>No</Button>
+            }}>Có</Button>
+            <Button outline theme="primary" onClick={() => { this.setState({ openModal: false }) }}>Không</Button>
           </ModalBody>
         </Modal>
       </Container>

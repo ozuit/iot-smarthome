@@ -14,7 +14,7 @@ function testSensorData() {
         // temperature
         const payload2 = util.signature(Math.round((Math.random()*20 + 20)*10)/10, secret_key)
         console.log(payload2)
-        client.publish('smarthome/living-room/sensor/temp/sensor1', payload2)
+        client.publish('smarthome/bed-room/sensor/temp/sensor1', payload2)
         
         // humidity
         const payload3 = util.signature(Math.round((Math.random()*50 + 50)*10)/10, secret_key)

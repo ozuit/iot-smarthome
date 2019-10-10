@@ -1,4 +1,5 @@
 const mqtt = require('mqtt')
+const moment = require('moment')
 const util = require('./util')
 const mysql = require('mysql')
 const dotenv = require('dotenv');
@@ -48,6 +49,17 @@ const registerMQTT = function() {
             else {
                 if ((topic == 'smarthome/bed-room/sensor/temp/sensor1') && (parseFloat(result.payload) < 25)) {
                     // Turn off fan
+                    mysql_con.query(`SELECT * FROM data WHERE node_id = ${nodeMapTable['smarthome/bed-room/fan/device1']} ORDER BY id DESC LIMIT 1`, function (error, results) {
+                        if (error) console.error(error)
+
+                        if (results[0].value === 1 && (moment().diff(moment(results[0].created_at), 'hours') >= 2)) {
+                            const bed_room_fan_off = util.signature('0', secret_key)
+                            client.publish('smarthome/bed-room/fan/device1', bed_room_fan_off)
+                            mysql_con.query(`UPDATE node SET active = 0 WHERE id = ${nodeMapTable['smarthome/bed-room/fan/device1']}`, function (error, results, fields) {
+                                if (error) console.error(error)
+                            });
+                        } 
+                    });
                 }
                 const record = {node_id: nodeMapTable[topic], topic: topic, value: parseFloat(result.payload)}
                 console.log(record)

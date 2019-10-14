@@ -34,6 +34,13 @@ module.exports = async function queryIntent(queryRequest) {
   // Send request and log result
   const responses = await sessionClient.detectIntent(request);
   const result = responses[0].queryResult;
+  // console.log(`  Query: ${result.queryText}`);
+  // console.log(`  Response: ${result.fulfillmentText}`);
+  // if (result.intent) {
+  //   console.log(`  Intent: ${result.intent.displayName}`);
+  // } else {
+  //   console.log(`  No intent matched.`);
+  // }
   return result;
 }
 // [END dialogflow_quickstart]

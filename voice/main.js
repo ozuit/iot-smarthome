@@ -18,6 +18,9 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const fs = require('fs');
 const queryIntent = require('./agent');
 
+// Keeping the context across queries let's us simulate an ongoing conversation with the bot
+let contexts;
+
 app.get('/', (req, res) => {
   res.send('Speech to text server is runing...')
 })
@@ -53,7 +56,8 @@ app.post('/speech-to-text', async (req, res) => {
     .map(result => result.alternatives[0].transcript);
 
   // Query to Dialogflow
-  const responseDialogflow = await queryIntent(transcription[0]);
+  const responseDialogflow = await queryIntent(transcription[0], contexts);
+  contexts = responseDialogflow.outputContexts;
 
   const requestT2S = {
     input: { text: responseDialogflow.fulfillmentText },

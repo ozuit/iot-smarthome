@@ -1,6 +1,6 @@
 'use strict';
 
-// [START dialogflow_quickstart]
+// [START dialogflow]
 
 const dialogflow = require('dialogflow');
 const uuid = require('uuid');
@@ -10,7 +10,7 @@ const projectId = 'iotagent-gvrspf';
  * Send a query to the dialogflow agent, and return the query result.
  * @param {string} projectId The project to be used
  */
-module.exports = async function queryIntent(queryRequest) {
+module.exports = async function queryIntent(queryRequest, contexts) {
   // A unique identifier for the given session
   const sessionId = uuid.v4();
 
@@ -31,9 +31,17 @@ module.exports = async function queryIntent(queryRequest) {
     },
   };
 
+  if (contexts && contexts.length > 0) {
+    request.queryParams = {
+      contexts: contexts,
+    };
+  }
+
   // Send request and log result
   const responses = await sessionClient.detectIntent(request);
   const result = responses[0].queryResult;
+  
+  // console.log(`  Context: ${result.outputContexts}`);
   // console.log(`  Query: ${result.queryText}`);
   // console.log(`  Response: ${result.fulfillmentText}`);
   // if (result.intent) {
@@ -43,4 +51,4 @@ module.exports = async function queryIntent(queryRequest) {
   // }
   return result;
 }
-// [END dialogflow_quickstart]
+// [END dialogflow]

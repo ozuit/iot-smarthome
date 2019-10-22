@@ -7,9 +7,9 @@ const client = mqtt.connect('mqtt://94.237.73.225')
 function testSensorData() {
     setInterval(function() {
         // motion
-        const payload1 = util.signature(Math.random() < 0.5 ? 0 : 1, secret_key)
-        console.log(payload1)
-        client.publish('smarthome/living-room/sensor/motion/sensor1', payload1)
+        // const payload1 = util.signature(Math.random() < 0.5 ? 0 : 1, secret_key)
+        // console.log(payload1)
+        // client.publish('smarthome/living-room/sensor/motion/sensor1', payload1)
         
         // temperature
         const payload2 = util.signature(Math.round((Math.random()*20 + 20)*10)/10, secret_key)
@@ -19,14 +19,14 @@ function testSensorData() {
         // humidity
         const payload3 = util.signature(Math.round((Math.random()*50 + 50)*10)/10, secret_key)
         console.log(payload3)
-        client.publish('smarthome/living-room/sensor/hum/sensor1', payload3)
+        client.publish('smarthome/bed-room/sensor/hum/sensor1', payload3)
         
         // light
-        const lux = Math.round(Math.random()*1000)
-        const lux_min = Math.round(Math.random()*1000)
-        const payload4 = util.signature((Math.round(lux / lux_min)*1000)/1000, secret_key)
-        console.log(payload4)
-        client.publish('smarthome/living-room/sensor/light/sensor1', payload4)
+        // const lux = Math.round(Math.random()*1000)
+        // const lux_min = Math.round(Math.random()*1000)
+        // const payload4 = util.signature((Math.round(lux / lux_min)*1000)/1000, secret_key)
+        // console.log(payload4)
+        // client.publish('smarthome/living-room/sensor/light/sensor1', payload4)
     }, 1000);
 }
 
@@ -42,6 +42,6 @@ function testDeviceData() {
 }
 
 client.on('connect', function () {
-    // testSensorData()
+    testSensorData()
     // testDeviceData()
 })

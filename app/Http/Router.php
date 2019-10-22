@@ -21,6 +21,8 @@ class Router extends RouteLoader
         $routing->post('/api/v1/user/login', $r->to('User', 'login'), 'api_v1_user_login');
         $routing->put('/api/v1/user/resetpass', $r->to('User', 'resetpass'), 'api_v1_user_resetpass');
         $routing->put('/api/{internal_token}/node/update', $r->to('Node', 'ifttt'), 'api_v1_ifttt_put');
+        $routing->put('/api/{internal_token}/iot-agent/update', $r->to('Node', 'agentput'), 'api_v1_agentput_put');
+        $routing->get('/api/{internal_token}/iot-agent/info', $r->to('Node', 'agentget'), 'api_v1_agentget_put');
 
         $routing->group('/api/v1', function ($group) use ($r) {
             $group->get('/me', $r->to('User', 'me'), 'api_v1_user_me');

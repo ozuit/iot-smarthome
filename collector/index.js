@@ -10,6 +10,7 @@ dotenv.config();
 const secret_key = process.env.MQTT_SECRET_KEY || ''
 const maxGas = 500;
 let nodeMapTable = {}
+let settingMapTable = {}
 const axiosInstance = axios.create({
     baseURL: process.env.API_ENPOINT,
 });
@@ -38,6 +39,18 @@ const refreshSensorMapTable = function(cb) {
     });
 }
 
+const refreshSettingMapTable = function() {
+    settingMapTable = {}
+
+    let sql = `SELECT * FROM setting`
+    mysql_con.query(sql, function (err, result) {
+        if (err) throw err;
+        
+        settingMapTable['active_fan_sensor'] = result[0].active_fan_sensor;
+        settingMapTable['limit_fan_sensor'] = result[0].limit_fan_sensor;
+    });
+}
+
 const registerMQTT = function() {
     client.subscribe('smarthome/+/sensor/#')
     client.on('message', function(topic, message) {
@@ -50,7 +63,7 @@ const registerMQTT = function() {
                 }
             }
             else {
-                if ((topic == 'smarthome/bed-room/sensor/temp/sensor1') && (parseFloat(result.payload) < 25)) {
+                if ((topic == 'smarthome/bed-room/sensor/temp/sensor1') && (parseFloat(result.payload) < settingMapTable['limit_fan_sensor']) && settingMapTable['active_fan_sensor'] == 1) {
                     // Turn off fan
                     mysql_con.query(`SELECT * FROM data WHERE node_id = ${nodeMapTable['smarthome/bed-room/fan/device1']} ORDER BY id DESC LIMIT 1`, function (error, results) {
                         if (error) console.error(error)
@@ -81,4 +94,7 @@ mysql_con.connect(function(err) {
 
     refreshSensorMapTable(registerMQTT);
     setInterval(refreshSensorMapTable, 60000);
+
+    refreshSettingMapTable();
+    setInterval(refreshSettingMapTable, 5000);
 });

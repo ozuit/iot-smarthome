@@ -101,14 +101,14 @@ void handleData() {
     if(motionState == HIGH) {
       Serial.println("Motion detected!");
       char *kitchenLight = "1";
-      client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
+      client.publish("smarthome/kitchen/sensor/detection", signature(kitchenLight));
       openKitchenLight = true;
     }
     else {
       Serial.println("Motion absent!");
       if (openKitchenLight) {
         char *kitchenLight = "0";
-        client.publish("smarthome/kitchen/light/device1", signature(kitchenLight));
+        client.publish("smarthome/kitchen/sensor/detection", signature(kitchenLight));
         openKitchenLight = false;
       }
     }

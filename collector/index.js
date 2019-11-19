@@ -48,6 +48,7 @@ const refreshSettingMapTable = function() {
         
         settingMapTable['active_fan_sensor'] = result[0].active_fan_sensor;
         settingMapTable['limit_fan_sensor'] = result[0].limit_fan_sensor;
+        settingMapTable['active_motion_detection'] = result[0].active_motion_detection;
     });
 }
 
@@ -61,6 +62,12 @@ const registerMQTT = function() {
                     // Send Notify
                     request.get('https://maker.ifttt.com/trigger/gas_warning/with/key/bkK2wFkIFiUqGRoMCGxfmH')
                 }
+            }
+            else if (topic == 'smarthome/kitchen/sensor/detection' && settingMapTable['active_motion_detection'] == 1) {
+                axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/node/update`, {
+                    topic: 'smarthome/kitchen/light/device1',
+                    status: result.payload
+                })
             }
             else {
                 if ((topic == 'smarthome/bed-room/sensor/temp/sensor1') && (parseFloat(result.payload) < settingMapTable['limit_fan_sensor']) && settingMapTable['active_fan_sensor'] == 1) {

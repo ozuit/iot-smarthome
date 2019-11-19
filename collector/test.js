@@ -44,7 +44,7 @@ function testDeviceData() {
 client.on('connect', function () {
     // testSensorData()
     // testDeviceData()
-    const payload3 = util.signature(29, secret_key)
+    const payload3 = util.signature('1', secret_key)
     console.log(payload3)
-    client.publish('smarthome/bed-room/sensor/temp/sensor1', payload3)
+    client.publish('smarthome/kitchen/sensor/detection', payload3)
 })

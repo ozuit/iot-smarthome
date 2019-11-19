@@ -26,5 +26,10 @@ export default function() {
       htmlBefore: '<i class="material-icons">people</i>',
       to: "/users",
     },
+    {
+      title: "Thiết lập",
+      htmlBefore: '<i class="material-icons">build</i>',
+      to: "/setting",
+    },
   ];
 }

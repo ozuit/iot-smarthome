@@ -22,6 +22,7 @@ import EditUser from "./components/users/EditUser";
 import Sensors from "./views/Sensors";
 import NewSensor from "./components/sensors/NewSensor";
 import EditSensor from "./components/sensors/EditSensor";
+import Setting from "./views/Setting";
 
 export default [
   {
@@ -113,5 +114,11 @@ export default [
     path: "/edit-user/:user_id",
     layout: DefaultLayout,
     component: authHOC(EditUser)
+  },
+  // Setting
+  {
+    path: "/setting",
+    layout: DefaultLayout,
+    component: authHOC(Setting)
   },
 ];

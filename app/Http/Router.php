@@ -60,6 +60,9 @@ class Router extends RouteLoader
             $group->put('/data/{id}', $r->to('Data', 'api'), 'api_v1_data_put');
 
             $group->get('/dashboard/data', $r->to('Dashboard', 'data'), 'api_v1_dashboard_data_get');
+            
+            $group->get('/setting', $r->to('Setting', 'api'), 'api_v1_setting_get');
+            $group->put('/setting/{id}', $r->to('Setting', 'api'), 'api_v1_setting_put');
         }, [
             '_before' => [
                 ApiMiddleware::class

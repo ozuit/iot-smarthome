@@ -11,7 +11,7 @@ use Bluerhinos\phpMQTT;
 class Node extends Api
 {
     protected $actions = [
-        'update', 'turnOffAll', 'ifttt', 'sleepMode', 'movieMode', 'bookMode', 'agentget', 'agentput', 'turnOffAll'
+        'update', 'turnOffAll', 'ifttt', 'sleepMode', 'movieMode', 'bookMode', 'agentget', 'agentput', 'agentall'
     ];
 
     protected function getService() : NodeService
@@ -238,8 +238,8 @@ class Node extends Api
     {
         if ($internal_token == env('INTERNAL_TOKEN')) {
             $setting = $this->get(SettingService::class)->first();
-            if ($setting->active_gas_warning) {
-                $this->turnOffAll();
+            if ($setting->active_gas_warning === 1) {
+                return $this->turnOffAll();
             }
         }
 

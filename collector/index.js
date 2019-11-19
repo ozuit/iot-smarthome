@@ -3,11 +3,16 @@ const moment = require('moment')
 const util = require('./util')
 const mysql = require('mysql')
 const dotenv = require('dotenv');
+const axios = require('axios')
 const request = require('request');
+
 dotenv.config();
 const secret_key = process.env.MQTT_SECRET_KEY || ''
 const maxGas = 500;
 let nodeMapTable = {}
+const axiosInstance = axios.create({
+    baseURL: process.env.API_ENPOINT,
+});
 
 const mysql_con = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -39,11 +44,9 @@ const registerMQTT = function() {
         if (result = util.verify(message.toString(), secret_key)) {
             if (topic == 'smarthome/kitchen/sensor/gas/sensor1') {
                 if (parseFloat(result.payload) > maxGas) {
+                    axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/iot-agent/turn-off-all`)
                     // Send Notify
                     request.get('https://maker.ifttt.com/trigger/gas_warning/with/key/bkK2wFkIFiUqGRoMCGxfmH')
-                    mysql_con.query('UPDATE node SET active = 0 WHERE is_sensor = 0', function (error, results, fields) {
-                        if (error) console.error(error)
-                    });
                 }
             }
             else {

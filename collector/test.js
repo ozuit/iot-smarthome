@@ -42,6 +42,9 @@ function testDeviceData() {
 }
 
 client.on('connect', function () {
-    testSensorData()
+    // testSensorData()
     // testDeviceData()
+    const payload3 = util.signature(600, secret_key)
+    console.log(payload3)
+    client.publish('smarthome/kitchen/sensor/gas/sensor1', payload3)
 })

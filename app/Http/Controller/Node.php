@@ -4,13 +4,14 @@ namespace App\Http\Controller;
 
 use App\Service\DataService;
 use App\Service\NodeService;
+use App\Service\SettingService;
 use Symfony\Component\HttpFoundation\Response;
 use Bluerhinos\phpMQTT;
 
 class Node extends Api
 {
     protected $actions = [
-        'update', 'turnOffAll', 'ifttt', 'sleepMode', 'movieMode', 'bookMode', 'agentget', 'agentput'
+        'update', 'turnOffAll', 'ifttt', 'sleepMode', 'movieMode', 'bookMode', 'agentget', 'agentput', 'turnOffAll'
     ];
 
     protected function getService() : NodeService
@@ -231,6 +232,20 @@ class Node extends Api
                 'message' => 'Time out!'
             ]);
         }
+    }
+
+    protected function agentall($internal_token) : Response
+    {
+        if ($internal_token == env('INTERNAL_TOKEN')) {
+            $setting = $this->get(SettingService::class)->first();
+            if ($setting->active_gas_warning) {
+                $this->turnOffAll();
+            }
+        }
+
+        return $this->json([
+            'status' => false,
+        ]);
     }
 
     protected function agentget($internal_token) : Response

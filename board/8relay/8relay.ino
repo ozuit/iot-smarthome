@@ -105,13 +105,6 @@ void collectData() {
   Serial.println(gasChar);
   if (gasInt > 500 && gasWarning == false) {
     gasWarning = true;
-    digitalWrite(PIN_D0, LOW);
-    digitalWrite(PIN_D3, LOW);
-    digitalWrite(PIN_D4, LOW);
-    digitalWrite(PIN_D5, LOW);
-    digitalWrite(PIN_D6, LOW);
-    digitalWrite(PIN_D7, LOW);
-    digitalWrite(PIN_D8, LOW);
     client.publish("smarthome/kitchen/sensor/gas/sensor1", signature(gasChar));
   } else {
     gasWarning = false;

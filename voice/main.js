@@ -3,7 +3,7 @@
 const axios = require('axios')
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 app.use(express.json({ limit: '50mb' }))
 
@@ -59,13 +59,21 @@ app.post('/speech-to-text', async (req, res) => {
   };
 
   // Detects speech in the audio file
+  const timeS2T_begin = Math.floor(Date.now());
   const [responseS2T] = await clientS2T.recognize(requestS2T);
+  const timeS2T_end = Math.floor(Date.now());
+  console.log('S2T: ' + (timeS2T_end - timeS2T_begin))
+
   const transcription = responseS2T.results
     .map(result => result.alternatives[0].transcript);
 
   // Query to Dialogflow
   if (transcription[0]) {
+    const timeNLP_begin = Math.floor(Date.now());
     const responseDialogflow = await queryIntent(transcription[0], contexts);
+    const timeNLP_end = Math.floor(Date.now());
+    console.log('NLP: ' + (timeNLP_end - timeNLP_begin))
+
     contexts = responseDialogflow.outputContexts;
     let responseText = responseDialogflow.fulfillmentText;
     
@@ -94,7 +102,10 @@ app.post('/speech-to-text', async (req, res) => {
     };
 
     // Performs the Text-to-Speech request
+    const timeT2S_begin = Math.floor(Date.now());
     const [responseT2S] = await clientT2S.synthesizeSpeech(requestT2S);
+    const timeT2S_end = Math.floor(Date.now());
+    console.log('T2S: ' + (timeT2S_end - timeT2S_begin))
 
     // Send response
     res.send(responseT2S.audioContent.toString('base64'))

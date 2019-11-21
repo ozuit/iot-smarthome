@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "export": "export GOOGLE_APPLICATION_CREDENTIALS=\"./service-account-file.json\""
+    "export": "export GOOGLE_APPLICATION_CREDENTIALS=\"./service-account-file.json\"",
+    "start": "GOOGLE_APPLICATION_CREDENTIALS=\"./service-account-file.json\" node main.js"
   },
   "dependencies": {
     "@google-cloud/speech": "^3.2.6",

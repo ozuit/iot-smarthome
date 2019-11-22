@@ -58,9 +58,8 @@ function startRecording() {
 				// Speech to text
 				$.ajax({
 					type: 'POST',
-					// url: 'https://s2t.ozuiot.xyz/speech-to-text',
-					// url: 'http://localhost:3000/speech-to-text',
-					url: 'https://iotagent-hmy3kujlyq-an.a.run.app/speech-to-text',
+					url: 'https://s2t.ozuiot.xyz/iotagent',
+					// url: 'http://localhost:3000/iotagent',
 					data: JSON.stringify({ audio: base64 }),
 					contentType: "application/json",
 					success: function (data) {

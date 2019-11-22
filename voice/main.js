@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
   res.send('IoT agent is runing...')
 })
 
-app.post('/speech-to-text', async (req, res) => {
+app.post('/iotagent', async (req, res) => {
   // Creates a client
   const clientS2T = new speech.SpeechClient();
   const clientT2S = new textToSpeech.TextToSpeechClient();

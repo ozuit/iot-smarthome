@@ -320,16 +320,18 @@ class Node extends Api
                 foreach($rooms as $room) {
                     foreach($devices as $device) {
                         $topic = "smarthome/$room/$device/device1";
-                        $mqtt->publish($topic, $this->signature($state));
                         $node = $this->getService()->where('topic', $topic)->first();
-                        $node->active = $state;
-                        $node->save();
-                        if ($device == 'light' && $room == 'living-room') {
-                            $topic = "smarthome/living-room/light/device2";
+                        if ($node) {
                             $mqtt->publish($topic, $this->signature($state));
-                            $node = $this->getService()->where('topic', $topic)->first();
                             $node->active = $state;
                             $node->save();
+                            if ($device == 'light' && $room == 'living-room') {
+                                $topic = "smarthome/living-room/light/device2";
+                                $mqtt->publish($topic, $this->signature($state));
+                                $node = $this->getService()->where('topic', $topic)->first();
+                                $node->active = $state;
+                                $node->save();
+                            }
                         }
                     }
                 }

@@ -88,7 +88,7 @@ class UserSetting extends React.Component {
                   <Form>
                     <Row form>
                       <Col md="6" className="form-group">
-                        <label>Tắt quạt phòng ngủ tự động</label>
+                        <label>Mở quạt phòng ngủ tự động</label>
                         <Row>
                           <Col>
                             { setting.active_fan_sensor === 1 ? (
@@ -100,7 +100,7 @@ class UserSetting extends React.Component {
                         </Row>
                       </Col>
                       <Col md="6" className="form-group">
-                        <label htmlFor="feFanSensorLimit">Tắt quạt khi nhiệt độ dưới</label>
+                        <label htmlFor="feFanSensorLimit">Mở quạt khi nhiệt độ trên</label>
                         <FormInput
                           id="feFanSensorLimit"
                           placeholder="Nhập giới hạn nhiệt độ"

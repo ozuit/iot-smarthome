@@ -25,7 +25,7 @@
 
 const char* mqtt_server = "94.237.73.225";
 const char* secret_key = "";
-const int timeout = 10000;
+const int timeout = 3;
 const long utcOffsetInSeconds = 0;
 boolean gasWarning = false;
 
@@ -159,7 +159,7 @@ void loop() {
   timeClient.update();
 
   Timer::getInstance()->update();
-  collectDataScheduler->update();
+//  collectDataScheduler->update();
   handleDataScheduler->update();
   Timer::getInstance()->resetTick();
 }
@@ -172,7 +172,8 @@ boolean verify(byte* payload, unsigned int length)
   String ts = str_payload.substring(33,43);
   unsigned long ts_long = ts.toInt();
 
-  if (now_ts - ts_long > timeout) {
+  if (abs(now_ts - ts_long) > timeout) {
+      Serial.println("Outdated!");
       return false;
   }
 
@@ -185,7 +186,7 @@ boolean verify(byte* payload, unsigned int length)
   if (hash == String(md5str)) {
     return true;
   }
-
+  Serial.println("Wrong signature!");
   return false;
 }
 
@@ -234,7 +235,5 @@ void callback(char* topic, byte* payload, unsigned int length) {
     {
        handleDevice(state, PIN_D7);
     }
-  } else {
-    Serial.println("Wrong signature or outdated!");
   }
 }

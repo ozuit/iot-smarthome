@@ -62,51 +62,53 @@ class Users extends React.Component
                 </Row>
               </CardHeader>
               <CardBody className="p-0 pb-3">
-                <table className="table mb-0">
-                  <thead className="bg-light">
-                    <tr>
-                      <th scope="col" className="border-0">
-                        #
-                      </th>
-                      <th scope="col" className="border-0">
-                        Họ & tên
-                      </th>
-                      <th scope="col" className="border-0">
-                        Email
-                      </th>
-                      <th scope="col" className="border-0">
-                        Số ĐT
-                      </th>
-                      <th scope="col" className="border-0">
-                        Địa chỉ
-                      </th>
-                      <th scope="col" className="border-0">
-                        Hành động
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      usersData.map((user, index) => (
-                        <tr key={index}>
-                          <td>{ index + 1 }</td>
-                          <td>{ user.name }</td>
-                          <td>{ user.email }</td>
-                          <td>{ user.phone }</td>
-                          <td>{ user.address }</td>
-                          <td>
-                            <Link to={"edit-user/" + user.id}>
-                              <i className="material-icons mr-2" style={styles.edit}>edit</i>
-                            </Link>
-                            {
-                              user.id === 1 ? null : <i className="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(user.id)}>delete</i>
-                            }
-                          </td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
+                <div style={{overflowX:'auto'}}>
+                  <table className="table mb-0">
+                    <thead className="bg-light">
+                      <tr>
+                        <th scope="col" className="border-0">
+                          #
+                        </th>
+                        <th scope="col" className="border-0">
+                          Họ & tên
+                        </th>
+                        <th scope="col" className="border-0">
+                          Email
+                        </th>
+                        <th scope="col" className="border-0">
+                          Số ĐT
+                        </th>
+                        <th scope="col" className="border-0">
+                          Địa chỉ
+                        </th>
+                        <th scope="col" className="border-0">
+                          Hành động
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        usersData.map((user, index) => (
+                          <tr key={index}>
+                            <td>{ index + 1 }</td>
+                            <td>{ user.name }</td>
+                            <td>{ user.email }</td>
+                            <td>{ user.phone }</td>
+                            <td>{ user.address }</td>
+                            <td>
+                              <Link to={"edit-user/" + user.id}>
+                                <i className="material-icons mr-2" style={styles.edit}>edit</i>
+                              </Link>
+                              {
+                                user.id === 1 ? null : <i className="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(user.id)}>delete</i>
+                              }
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                </div>
               </CardBody>
             </Card>
           </Col>

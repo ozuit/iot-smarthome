@@ -67,45 +67,47 @@ class Sensors extends React.Component
                 </Row>
               </CardHeader>
               <CardBody className="p-0 pb-3">
-                <table className="table mb-0">
-                  <thead className="bg-light">
-                    <tr>
-                      <th scope="col" className="border-0">
-                        #
-                      </th>
-                      <th scope="col" className="border-0">
-                        Tên cảm biến
-                      </th>
-                      <th scope="col" className="border-0">
-                        Topic
-                      </th>
-                      <th scope="col" className="border-0">
-                        Thuộc phòng
-                      </th>
-                      <th scope="col" className="border-0">
-                        Hành động
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      sensorsData.map((sensor, index) => (
-                        <tr key={index}>
-                          <td>{ index + 1 }</td>
-                          <td>{ sensor.name }</td>
-                          <td>{ sensor.topic }</td>
-                          <td>{ sensor.room_id ? sensor.room.data.name : '' }</td>
-                          <td>
-                            <Link to={"edit-sensor/" + sensor.id}>
-                              <i className="material-icons mr-2" style={styles.edit}>edit</i>
-                            </Link>
-                            <i className="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(sensor.id)}>delete</i>
-                          </td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
+                <div style={{overflowX:'auto'}}>
+                  <table className="table mb-0">
+                    <thead className="bg-light">
+                      <tr>
+                        <th scope="col" className="border-0">
+                          #
+                        </th>
+                        <th scope="col" className="border-0">
+                          Tên cảm biến
+                        </th>
+                        <th scope="col" className="border-0">
+                          Topic
+                        </th>
+                        <th scope="col" className="border-0">
+                          Thuộc phòng
+                        </th>
+                        <th scope="col" className="border-0">
+                          Hành động
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        sensorsData.map((sensor, index) => (
+                          <tr key={index}>
+                            <td>{ index + 1 }</td>
+                            <td>{ sensor.name }</td>
+                            <td>{ sensor.topic }</td>
+                            <td>{ sensor.room_id ? sensor.room.data.name : '' }</td>
+                            <td>
+                              <Link to={"edit-sensor/" + sensor.id}>
+                                <i className="material-icons mr-2" style={styles.edit}>edit</i>
+                              </Link>
+                              <i className="material-icons mr-2" style={styles.delete} onClick={() => this.handleDelete(sensor.id)}>delete</i>
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                </div>
               </CardBody>
             </Card>
           </Col>

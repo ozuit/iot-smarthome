@@ -62,48 +62,50 @@ class Rooms extends React.Component
                 </Row>
               </CardHeader>
               <CardBody className="p-0 pb-3">
-                <table className="table mb-0">
-                  <thead className="bg-light">
-                    <tr>
-                      <th scope="col" className="border-0">
-                        #
-                      </th>
-                      <th scope="col" className="border-0">
-                        Tên phòng
-                      </th>
-                      <th scope="col" className="border-0">
-                        Topic
-                      </th>
-                      <th scope="col" className="border-0">
-                        Số lượng thiết bị
-                      </th>
-                      <th scope="col" className="border-0">
-                        Hành động
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      roomsData.map((room, index) => (
-                        <tr key={index}>
-                          <td>{ index + 1 }</td>
-                          <td>{ room.name }</td>
-                          <td>{ room.topic }</td>
-                          <td>{ room.number }</td>
-                          <td>
-                            <Link to={"show-device/" + room.id}>
-                              <i className="material-icons mr-2" style={styles.button}>devices_other</i>
-                            </Link>
-                            <Link to={"edit-room/" + room.id}>
-                              <i className="material-icons mr-2" style={styles.button}>edit</i>
-                            </Link>
-                            <i className="material-icons mr-2" style={styles.button} onClick={() => this.handleDelete(room.id)}>delete</i>
-                          </td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
+                <div style={{overflowX:'auto'}}>
+                  <table className="table mb-0">
+                    <thead className="bg-light">
+                      <tr>
+                        <th scope="col" className="border-0">
+                          #
+                        </th>
+                        <th scope="col" className="border-0">
+                          Tên phòng
+                        </th>
+                        <th scope="col" className="border-0">
+                          Topic
+                        </th>
+                        <th scope="col" className="border-0">
+                          Số lượng thiết bị
+                        </th>
+                        <th scope="col" className="border-0">
+                          Hành động
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        roomsData.map((room, index) => (
+                          <tr key={index}>
+                            <td>{ index + 1 }</td>
+                            <td>{ room.name }</td>
+                            <td>{ room.topic }</td>
+                            <td>{ room.number }</td>
+                            <td>
+                              <Link to={"show-device/" + room.id}>
+                                <i className="material-icons mr-2" style={styles.button}>devices_other</i>
+                              </Link>
+                              <Link to={"edit-room/" + room.id}>
+                                <i className="material-icons mr-2" style={styles.button}>edit</i>
+                              </Link>
+                              <i className="material-icons mr-2" style={styles.button} onClick={() => this.handleDelete(room.id)}>delete</i>
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                </div>
               </CardBody>
             </Card>
           </Col>

@@ -26,10 +26,6 @@ class Dashboard extends Api
                 'value' => $device->number
             ];
         }
-        $result[] = [
-            'label' => 'Người dùng',
-            'value' => $this->get(UserService::class)->count()
-        ];
         return $this->json([
             'data' => $result
         ]);

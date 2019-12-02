@@ -30,10 +30,6 @@ class Dashboard extends React.Component
         {
           label: "Bathroom Devices",
           value: "0",
-        },
-        {
-          label: "Members",
-          value: "0",
         }
       ]
     }
@@ -74,7 +70,7 @@ class Dashboard extends React.Component
         {/* Small Stats Blocks */}
         <Row>
           {this.state.smallStats.map((stats, idx) => (
-            <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
+            <Col lg="3" md="12" sm="12" className="col-lg mb-4" key={idx} {...stats.attrs}>
               <SmallStats
                 id={`small-stats-${idx}`}
                 variation="1"

@@ -20,7 +20,7 @@ BH1750FVI LightSensor;
 #define DHTPIN 16 // D0 on esp8266
 #define PIRPIN 13  // D7 on esp8266
 
-const char* mqtt_server = "94.237.73.225";
+const char* mqtt_server = "68.183.234.95";
 const char* secret_key = "";
 const long utcOffsetInSeconds = 0;
 boolean openKitchenLight = false;

@@ -22,7 +22,7 @@ const mysql_con = mysql.createConnection({
     database: process.env.DB_NAME
 });
 
-const client = mqtt.connect('mqtt://94.237.73.225')
+const client = mqtt.connect(`mqtt://${process.env.MQTT_SERVER}`)
 
 const refreshSensorMapTable = function(cb) {
     nodeMapTable = {}

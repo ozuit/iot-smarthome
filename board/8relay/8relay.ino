@@ -23,7 +23,7 @@
 #define PIN_D7  13
 #define PIN_D8  15
 
-const char* mqtt_server = "94.237.73.225";
+const char* mqtt_server = "68.183.234.95";
 const char* secret_key = "";
 const int timeout = 3;
 const long utcOffsetInSeconds = 0;

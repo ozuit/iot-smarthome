@@ -70,15 +70,16 @@ const registerMQTT = function() {
                 })
             }
             else {
-                if ((topic == 'smarthome/bed-room/sensor/temp/sensor1') && (parseFloat(result.payload) < settingMapTable['limit_fan_sensor']) && settingMapTable['active_fan_sensor'] == 1) {
-                    // Turn off fan
-                    mysql_con.query(`SELECT * FROM data WHERE node_id = ${nodeMapTable['smarthome/bed-room/fan/device1']} ORDER BY id DESC LIMIT 1`, function (error, results) {
+                if ((topic == 'smarthome/living-room/sensor/temp/sensor1') && (parseFloat(result.payload) > settingMapTable['limit_fan_sensor']) && settingMapTable['active_fan_sensor'] == 0) {
+                    // Turn on fan
+                    mysql_con.query(`SELECT * FROM data WHERE node_id = ${nodeMapTable['smarthome/living-room/fan/device1']} ORDER BY id DESC LIMIT 1`, function (error, results) {
                         if (error) console.error(error)
 
-                        if (results[0].value === 1 && (moment().diff(moment(results[0].created_at), 'hours') >= 2)) {
-                            const bed_room_fan_off = util.signature('0', secret_key)
-                            client.publish('smarthome/bed-room/fan/device1', bed_room_fan_off)
-                            mysql_con.query(`UPDATE node SET active = 0 WHERE id = ${nodeMapTable['smarthome/bed-room/fan/device1']}`, function (error, results, fields) {
+                        // if (results[0].value === 0 && (moment().diff(moment(results[0].created_at), 'hours') >= 2)) {
+                        if (results[0].value === 0) {
+                            const living_room_fan_on = util.signature('1', secret_key)
+                            client.publish('smarthome/living-room/fan/device1', living_room_fan_on)
+                            mysql_con.query(`UPDATE node SET active = 1 WHERE id = ${nodeMapTable['smarthome/living-room/fan/device1']}`, function (error, results, fields) {
                                 if (error) console.error(error)
                             });
                         } 

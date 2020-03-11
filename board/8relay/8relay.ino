@@ -25,7 +25,7 @@
 
 const char* mqtt_server = "68.183.234.95";
 const char* secret_key = "";
-const int timeout = 3;
+const int timeout = 30;
 const long utcOffsetInSeconds = 0;
 boolean gasWarning = false;
 
@@ -159,13 +159,13 @@ void loop() {
   timeClient.update();
 
   Timer::getInstance()->update();
-//  collectDataScheduler->update();
+  collectDataScheduler->update();
   handleDataScheduler->update();
   Timer::getInstance()->resetTick();
 }
 
 boolean verify(byte* payload, unsigned int length)
-{
+{return true;
   unsigned long now_ts = timeClient.getEpochTime();
   String str_payload = String((char*)payload);
   String hash = str_payload.substring(0,32);

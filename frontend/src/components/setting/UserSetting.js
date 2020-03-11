@@ -88,7 +88,7 @@ class UserSetting extends React.Component {
                   <Form>
                     <Row form>
                       <Col md="6" className="form-group">
-                        <label>Mở quạt phòng ngủ tự động</label>
+                        <label>Mở quạt tự động</label>
                         <Row>
                           <Col>
                             { setting.active_fan_sensor === 1 ? (

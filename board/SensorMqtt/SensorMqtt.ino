@@ -81,8 +81,8 @@ void collectData() {
   static char humidityTemp[7];
   dtostrf(measurement.humidity, 6, 2, humidityTemp);
 
-  client.publish("smarthome/bed-room/sensor/temp/sensor1", signature(temperatureTemp));
-  client.publish("smarthome/bed-room/sensor/hum/sensor1", signature(humidityTemp));
+  client.publish("smarthome/living-room/sensor/temp/sensor1", signature(temperatureTemp));
+  client.publish("smarthome/living-room/sensor/hum/sensor1", signature(humidityTemp));
 
   uint16_t lux = LightSensor.GetLightIntensity();
   Serial.print("Light: ");

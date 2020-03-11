@@ -32,7 +32,7 @@ class Data extends Api
         $temps = $this->getService()->where('node_id', Node::TEMP)->orderBy('created_at', 'desc')->limit(30)->pluck('value')->all();
         return $this->json([
             'status' => true,
-            'data' => $temps,
+            'data' => array_reverse($temps),
         ]);
     }
     
@@ -41,7 +41,7 @@ class Data extends Api
         $hums = $this->getService()->where('node_id', Node::HUM)->orderBy('created_at', 'desc')->limit(30)->pluck('value')->all();
         return $this->json([
             'status' => true,
-            'data' => $hums,
+            'data' => array_reverse($hums),
         ]);
     }
 }

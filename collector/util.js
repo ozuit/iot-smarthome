@@ -12,9 +12,9 @@ module.exports.verify = function(message, secret, timeout = 5) {
     const payload = message.substr(44)
     const now_ts = parseInt(new Date().getTime() / 1000)
 
-    if (now_ts - ts > timeout) {
-        return false
-    }
+    // if (now_ts - ts > timeout) {
+    //     return false
+    // }
 
     const re_hash = md5(message.substr(33) + '|' + secret)
 

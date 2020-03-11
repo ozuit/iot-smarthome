@@ -78,7 +78,7 @@ const registerMQTT = function() {
                         // if (results[0].active === 0 && (moment().diff(moment(results[0].updated_at), 'hours') >= 2)) {
                         if (results[0].active === 0) {
                             const living_room_fan_on = util.signature('1', secret_key)
-                            // client.publish('smarthome/living-room/fan/device1', living_room_fan_on)
+                            client.publish('smarthome/living-room/fan/device1', living_room_fan_on)
                             mysql_con.query(`UPDATE node SET active = 1 WHERE id = ${nodeMapTable['smarthome/living-room/fan/device1']}`, function (error, results, fields) {
                                 if (error) console.error(error)
                             });

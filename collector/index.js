@@ -70,7 +70,7 @@ const registerMQTT = function() {
                 })
             }
             else {
-                if ((topic == 'smarthome/living-room/sensor/temp/sensor1') && (parseFloat(result.payload) > settingMapTable['limit_fan_sensor']) && settingMapTable['active_fan_sensor'] == 0) {
+                if ((topic == 'smarthome/living-room/sensor/temp/sensor1') && (parseFloat(result.payload) > settingMapTable['limit_fan_sensor']) && settingMapTable['active_fan_sensor'] == 1) {
                     // Turn on fan
                     mysql_con.query(`SELECT * FROM data WHERE node_id = ${nodeMapTable['smarthome/living-room/fan/device1']} ORDER BY id DESC LIMIT 1`, function (error, results) {
                         if (error) console.error(error)

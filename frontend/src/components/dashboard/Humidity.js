@@ -123,7 +123,7 @@ class Humidity extends React.Component {
     return (
       <Card small className="h-80">
         <CardHeader className="border-bottom">
-          <h6 className="m-0">Độ ẩm phòng ngủ</h6>
+          <h6 className="m-0">Độ ẩm phòng khách</h6>
         </CardHeader>
         <CardBody className="pt-20">
           <canvas

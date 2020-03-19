@@ -20,6 +20,10 @@ class Devices extends React.Component
 
   componentWillMount() {
     this.fetch()
+    
+    setInterval(() => {
+      this.fetch()
+    }, 1000)
   }
 
   fetch() {

@@ -25,7 +25,7 @@ class Router extends RouteLoader
         $routing->put('/api/{internal_token}/iot-agent/update', $r->to('Node', 'agentput'), 'api_v1_agentput_put');
         $routing->put('/api/{internal_token}/iot-agent/sleep-mode', $r->to('Node', 'sleepMode'), 'api_v1_sleep_put');
         $routing->put('/api/{internal_token}/iot-agent/movie-mode', $r->to('Node', 'movieMode'), 'api_v1_movie_put');
-        $routing->put('/api/{internal_token}/iot-agent/book-sleep', $r->to('Node', 'bookMode'), 'api_v1_book_put');
+        $routing->put('/api/{internal_token}/iot-agent/book-mode', $r->to('Node', 'bookMode'), 'api_v1_book_put');
         $routing->get('/api/{internal_token}/iot-agent/info', $r->to('Node', 'agentget'), 'api_v1_agentget_put');
 
         $routing->group('/api/v1', function ($group) use ($r) {

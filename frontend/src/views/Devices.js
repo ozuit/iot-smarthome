@@ -23,7 +23,7 @@ class Devices extends React.Component
     
     setInterval(() => {
       this.fetch()
-    }, 1000)
+    }, 3000)
   }
 
   fetch() {

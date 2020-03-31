@@ -21,8 +21,11 @@ class Router extends RouteLoader
         $routing->post('/api/v1/user/login', $r->to('User', 'login'), 'api_v1_user_login');
         $routing->put('/api/v1/user/resetpass', $r->to('User', 'resetpass'), 'api_v1_user_resetpass');
         $routing->put('/api/{internal_token}/node/update', $r->to('Node', 'ifttt'), 'api_v1_ifttt_put');
-        $routing->put('/api/{internal_token}/iot-agent/turn-off-all', $r->to('Node', 'agentall'), 'api_v1_agentall_put');
+        $routing->put('/api/{internal_token}/iot-agent/turn-off-all', $r->to('Node', 'turnOffAll'), 'api_v1_agentall_put');
         $routing->put('/api/{internal_token}/iot-agent/update', $r->to('Node', 'agentput'), 'api_v1_agentput_put');
+        $routing->put('/api/{internal_token}/iot-agent/sleep-mode', $r->to('Node', 'sleepMode'), 'api_v1_sleep_put');
+        $routing->put('/api/{internal_token}/iot-agent/movie-mode', $r->to('Node', 'movieMode'), 'api_v1_movie_put');
+        $routing->put('/api/{internal_token}/iot-agent/book-sleep', $r->to('Node', 'bookMode'), 'api_v1_book_put');
         $routing->get('/api/{internal_token}/iot-agent/info', $r->to('Node', 'agentget'), 'api_v1_agentget_put');
 
         $routing->group('/api/v1', function ($group) use ($r) {

@@ -56,7 +56,7 @@ const registerMQTT = function() {
     client.subscribe('smarthome/+/sensor/#')
     client.on('message', function(topic, message) {
         if (result = util.verify(message.toString(), secret_key)) {
-            if (topic == 'smarthome/kitchen/sensor/gas/sensor1') {
+            if (topic == 'smarthome/kitchen/sensor/gas/sensor1' && settingMapTable['active_gas_warning'] == 1) {
                 if (parseFloat(result.payload) > maxGas) {
                     axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/iot-agent/turn-off-all`)
                     // Send Notify

@@ -108,8 +108,14 @@ class Node extends Api
         ]);
     }
 
-    protected function turnOffAll() : Response
+    protected function turnOffAll($internal_token = null) : Response
     {
+        if ($internal_token && $internal_token != env('INTERNAL_TOKEN')) {
+            return $this->json([
+                'status' => false,
+            ]);
+        }
+
         $server = env('MQTT_SERVER');
         $port = env('MQTT_PORT');
         $client_id = env('MQTT_CLIENT_ID');
@@ -135,8 +141,14 @@ class Node extends Api
         }
     }
 
-    protected function sleepMode() : Response
+    protected function sleepMode($internal_token = null) : Response
     {
+        if ($internal_token && $internal_token != env('INTERNAL_TOKEN')) {
+            return $this->json([
+                'status' => false,
+            ]);
+        }
+
         $server = env('MQTT_SERVER');
         $port = env('MQTT_PORT');
         $client_id = env('MQTT_CLIENT_ID');
@@ -168,8 +180,14 @@ class Node extends Api
         }
     }
     
-    protected function movieMode() : Response
+    protected function movieMode($internal_token = null) : Response
     {
+        if ($internal_token && $internal_token != env('INTERNAL_TOKEN')) {
+            return $this->json([
+                'status' => false,
+            ]);
+        }
+
         $server = env('MQTT_SERVER');
         $port = env('MQTT_PORT');
         $client_id = env('MQTT_CLIENT_ID');
@@ -201,8 +219,14 @@ class Node extends Api
         }
     }
     
-    protected function bookMode() : Response
+    protected function bookMode($internal_token = null) : Response
     {
+        if ($internal_token && $internal_token != env('INTERNAL_TOKEN')) {
+            return $this->json([
+                'status' => false,
+            ]);
+        }
+
         $server = env('MQTT_SERVER');
         $port = env('MQTT_PORT');
         $client_id = env('MQTT_CLIENT_ID');
@@ -232,20 +256,6 @@ class Node extends Api
                 'message' => 'Time out!'
             ]);
         }
-    }
-
-    protected function agentall($internal_token) : Response
-    {
-        if ($internal_token == env('INTERNAL_TOKEN')) {
-            $setting = $this->get(SettingService::class)->first();
-            if ($setting->active_gas_warning === 1) {
-                return $this->turnOffAll();
-            }
-        }
-
-        return $this->json([
-            'status' => false,
-        ]);
     }
 
     protected function agentget($internal_token) : Response

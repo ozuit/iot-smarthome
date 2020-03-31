@@ -87,6 +87,18 @@ app.post('/iotagent', async (req, res) => {
       if (response.data.status) {
         responseText += ' ' + response.data.value + '%';
       }
+    } else if (responseText.indexOf('chế độ') != -1) {
+      if (responseText.indexOf('đi làm') != -1) {
+        axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/iot-agent/turn-off-all`)
+      } else if (responseText.indexOf('đi ngủ') != -1) {
+        axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/iot-agent/sleep-mode`)
+      } else if (responseText.indexOf('xem phim') != -1) {
+        axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/iot-agent/movie-mode`)
+      } else if (responseText.indexOf('đọc sách') != -1) {
+        axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/iot-agent/book-mode`)
+      } else {
+        responseText = 'Chế độ chưa được cài đặt'
+      }
     } else {
       axiosInstance.put(`/api/${process.env.INTERNAL_TOKEN}/iot-agent/update`, {
         fulfillment: responseText

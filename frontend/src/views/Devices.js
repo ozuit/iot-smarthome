@@ -84,13 +84,9 @@ class Devices extends React.Component
                 </Row>
               </CardHeader>
               <CardBody className="p-0 pb-3">
-                <div style={{overflowX:'auto'}}>
-                  <table className="table mb-0">
+                <table className="table mb-0">
                     <thead className="bg-light">
                       <tr>
-                        <th scope="col" className="border-0">
-                          #
-                        </th>
                         <th scope="col" className="border-0">
                           Tên thiết bị
                         </th>
@@ -112,16 +108,15 @@ class Devices extends React.Component
                       {
                         devicesData.map((device, index) => (
                           <tr key={index}>
-                            <td>{ index + 1 }</td>
-                            <td>{ device.name }</td>
-                            <td>{ device.topic }</td>
-                            <td>{ device.active === 1 ? (
+                            <td data-label="Tên thiết bị">{ device.name }</td>
+                            <td data-label="Topic">{ device.topic }</td>
+                            <td data-label="Trạng thái">{ device.active === 1 ? (
                               <Button theme="success" onClick={this.toggleDevice.bind(this, device)}>Mở</Button>
                             ) : (
                               <Button theme="light" onClick={this.toggleDevice.bind(this, device)}>Tắt</Button>
                             )}</td>
-                            <td>{ device.room_id ? device.room.data.name : '' }</td>
-                            <td>
+                            <td data-label="Thuộc phòng">{ device.room_id ? device.room.data.name : '' }</td>
+                            <td data-label="Hành động">
                               <Link to={"edit-device/" + device.id}>
                                 <i className="material-icons mr-2" style={styles.edit}>edit</i>
                               </Link>
@@ -132,7 +127,6 @@ class Devices extends React.Component
                       }
                     </tbody>
                   </table>
-                </div>
               </CardBody>
             </Card>
           </Col>

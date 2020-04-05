@@ -67,9 +67,6 @@ class Users extends React.Component
                     <thead className="bg-light">
                       <tr>
                         <th scope="col" className="border-0">
-                          #
-                        </th>
-                        <th scope="col" className="border-0">
                           Họ & tên
                         </th>
                         <th scope="col" className="border-0">
@@ -90,12 +87,11 @@ class Users extends React.Component
                       {
                         usersData.map((user, index) => (
                           <tr key={index}>
-                            <td>{ index + 1 }</td>
-                            <td>{ user.name }</td>
-                            <td>{ user.email }</td>
-                            <td>{ user.phone }</td>
-                            <td>{ user.address }</td>
-                            <td>
+                            <td data-label="Họ & tên">{ user.name }</td>
+                            <td data-label="Email">{ user.email }</td>
+                            <td data-label="Số ĐT">{ user.phone }</td>
+                            <td data-label="Địa chỉ">{ user.address }</td>
+                            <td data-label="Hành động">
                               <Link to={"edit-user/" + user.id}>
                                 <i className="material-icons mr-2" style={styles.edit}>edit</i>
                               </Link>

@@ -72,9 +72,6 @@ class Sensors extends React.Component
                     <thead className="bg-light">
                       <tr>
                         <th scope="col" className="border-0">
-                          #
-                        </th>
-                        <th scope="col" className="border-0">
                           Tên cảm biến
                         </th>
                         <th scope="col" className="border-0">
@@ -92,11 +89,10 @@ class Sensors extends React.Component
                       {
                         sensorsData.map((sensor, index) => (
                           <tr key={index}>
-                            <td>{ index + 1 }</td>
-                            <td>{ sensor.name }</td>
-                            <td>{ sensor.topic }</td>
-                            <td>{ sensor.room_id ? sensor.room.data.name : '' }</td>
-                            <td>
+                            <td data-label="Tên cảm biến">{ sensor.name }</td>
+                            <td data-label="Topic">{ sensor.topic }</td>
+                            <td data-label="Thuộc phòng">{ sensor.room_id ? sensor.room.data.name : '' }</td>
+                            <td data-label="Hành động">
                               <Link to={"edit-sensor/" + sensor.id}>
                                 <i className="material-icons mr-2" style={styles.edit}>edit</i>
                               </Link>

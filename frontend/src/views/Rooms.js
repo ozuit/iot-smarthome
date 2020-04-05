@@ -67,9 +67,6 @@ class Rooms extends React.Component
                     <thead className="bg-light">
                       <tr>
                         <th scope="col" className="border-0">
-                          #
-                        </th>
-                        <th scope="col" className="border-0">
                           Tên phòng
                         </th>
                         <th scope="col" className="border-0">
@@ -87,11 +84,10 @@ class Rooms extends React.Component
                       {
                         roomsData.map((room, index) => (
                           <tr key={index}>
-                            <td>{ index + 1 }</td>
-                            <td>{ room.name }</td>
-                            <td>{ room.topic }</td>
-                            <td>{ room.number }</td>
-                            <td>
+                            <td data-label="Tên phòng">{ room.name }</td>
+                            <td data-label="Topic">{ room.topic }</td>
+                            <td data-label="Số lượng thiết bị">{ room.number }</td>
+                            <td data-label="Hành động">
                               <Link to={"show-device/" + room.id}>
                                 <i className="material-icons mr-2" style={styles.button}>devices_other</i>
                               </Link>

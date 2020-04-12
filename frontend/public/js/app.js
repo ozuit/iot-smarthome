@@ -58,8 +58,8 @@ function startRecording() {
 				// Speech to text
 				$.ajax({
 					type: 'POST',
-					url: 'https://node.smarthomeviet.website/iotagent',
-					// url: 'http://localhost:3000/iotagent',
+					// url: 'https://node.smarthomeviet.website/iotagent',
+					url: 'http://localhost:3000/iotagent',
 					data: JSON.stringify({ audio: base64 }),
 					contentType: "application/json",
 					success: function (data) {

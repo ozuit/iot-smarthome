@@ -23,7 +23,7 @@
 #define PIN_D7  13
 #define PIN_D8  15
 
-const char* mqtt_server = "68.183.234.95";
+const char* mqtt_server = "203.205.30.33";
 const char* secret_key = "";
 const int timeout = 30;
 const long utcOffsetInSeconds = 0;
@@ -209,11 +209,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
     
     if (topicStr == "smarthome/living-room/light/device1") // Relay number 8
     {
-       handleDevice(state, PIN_D0);
+       handleDevice(state, PIN_D6);
     }
     else if (topicStr == "smarthome/living-room/fan/device1") // Relay number 6
     {
-       handleDevice(state, PIN_D8);
+       handleDevice(state, PIN_D5);
     }
     else if (topicStr == "smarthome/bed-room/light/device1") // Relay number 5
     {
@@ -225,11 +225,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
     }
     else if (topicStr == "smarthome/bath-room/light/device1") // Relay number 3
     {
-       handleDevice(state, PIN_D5);
+       handleDevice(state, PIN_D8);
     }
     else if (topicStr == "smarthome/kitchen/light/device1") // Relay number 2
     {
-       handleDevice(state, PIN_D6);
+       handleDevice(state, PIN_D0);
     }
     else if (topicStr == "smarthome/living-room/light/device2") // Relay number 1
     {

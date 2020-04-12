@@ -20,7 +20,7 @@ BH1750FVI LightSensor;
 #define DHTPIN 16 // D0 on esp8266
 #define PIRPIN 13  // D7 on esp8266
 
-const char* mqtt_server = "68.183.234.95";
+const char* mqtt_server = "203.205.30.33";
 const char* secret_key = "";
 const long utcOffsetInSeconds = 0;
 boolean openKitchenLight = false;
@@ -101,14 +101,14 @@ void handleData() {
     if(motionState == HIGH) {
       Serial.println("Motion detected!");
       char *kitchenLight = "1";
-      client.publish("smarthome/kitchen/sensor/detection", signature(kitchenLight));
+      client.publish("smarthome/living-room/sensor/detection", signature(kitchenLight));
       openKitchenLight = true;
     }
     else {
       Serial.println("Motion absent!");
       if (openKitchenLight) {
         char *kitchenLight = "0";
-        client.publish("smarthome/kitchen/sensor/detection", signature(kitchenLight));
+        client.publish("smarthome/living-room/sensor/detection", signature(kitchenLight));
         openKitchenLight = false;
       }
     }

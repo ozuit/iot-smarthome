@@ -2,7 +2,7 @@ const mqtt = require('mqtt')
 const util = require('./util')
 
 const secret_key = process.env.MQTT_SECRET_KEY || '';
-const client = mqtt.connect('mqtt://68.183.234.95')
+const client = mqtt.connect('mqtt://203.205.30.33')
 
 function testSensorData() {
     setInterval(function() {

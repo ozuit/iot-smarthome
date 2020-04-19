@@ -103,12 +103,12 @@ void collectData() {
   char gasChar[3];
   itoa(gasInt, gasChar, 10);
   Serial.println(gasChar);
-  if (gasInt > 500 && gasWarning == false) {
-    gasWarning = true;
+  //if (gasInt > 500 && gasWarning == false) {
+    //gasWarning = true;
     client.publish("smarthome/kitchen/sensor/gas/sensor1", signature(gasChar));
-  } else {
-    gasWarning = false;
-  }
+  //} else {
+    //gasWarning = false;
+  //}
 }
 
 void handleData() {
@@ -151,7 +151,7 @@ void setup() {
   // Initial class timer (design pattern singleton)
   Timer::getInstance()->initialize();
   // Initial jobs
-  collectDataScheduler = new WorkScheduler(1000UL, collectData);
+  collectDataScheduler = new WorkScheduler(10000UL, collectData);
   handleDataScheduler = new WorkScheduler(100UL, handleData);
 }
  

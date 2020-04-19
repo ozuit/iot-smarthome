@@ -49,6 +49,7 @@ const refreshSettingMapTable = function() {
         settingMapTable['active_fan_sensor'] = result[0].active_fan_sensor;
         settingMapTable['limit_fan_sensor'] = result[0].limit_fan_sensor;
         settingMapTable['active_motion_detection'] = result[0].active_motion_detection;
+        settingMapTable['active_gas_warning'] = result[0].active_gas_warning;
     });
 }
 
@@ -74,11 +75,14 @@ const registerMQTT = function() {
                 // })
 
                 const living_room_light_status = util.signature(result.payload, secret_key)
-                client.publish('smarthome/living-room/light/device1', living_room_light_status)
-                client.publish('smarthome/living-room/light/device2', living_room_light_status)
-                mysql_con.query(`UPDATE node SET active = ${result.payload} WHERE topic like 'smarthome/living-room/light/device%'`, function (error, results, fields) {
-                    if (error) console.error(error)
-                });
+                if (result.payload == 1) {
+                    client.publish('smarthome/living-room/light/device1', living_room_light_status)
+                    client.publish('smarthome/living-room/light/device2', living_room_light_status)
+                
+                    mysql_con.query(`UPDATE node SET active = ${result.payload} WHERE topic like 'smarthome/living-room/light/device%'`, function (error, results, fields) {
+                        if (error) console.error(error)
+                    });
+                }
             }
             else {
                 if ((topic == 'smarthome/living-room/sensor/temp/sensor1') && (parseFloat(result.payload) > settingMapTable['limit_fan_sensor']) && settingMapTable['active_fan_sensor'] == 1) {
@@ -86,8 +90,8 @@ const registerMQTT = function() {
                     mysql_con.query(`SELECT * FROM node WHERE id = ${nodeMapTable['smarthome/living-room/fan/device1']}`, function (error, results) {
                         if (error) console.error(error)
 
-                        // if (results[0].active === 0 && (moment().diff(moment(results[0].updated_at), 'hours') >= 2)) {
-                        if (results[0].active === 0) {
+                        if (results[0].active === 0 && (moment().diff(moment(results[0].updated_at), 'hours') >= 2)) {
+                        // if (results[0].active === 0) {
                             const living_room_fan_on = util.signature('1', secret_key)
                             client.publish('smarthome/living-room/fan/device1', living_room_fan_on)
                             mysql_con.query(`UPDATE node SET active = 1 WHERE id = ${nodeMapTable['smarthome/living-room/fan/device1']}`, function (error, results, fields) {
